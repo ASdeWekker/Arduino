@@ -26,7 +26,7 @@ void loop() {
   int potrval = map(potr, 0, 1023, 0, 255);
   int potgval = map(potg, 0, 1023, 0, 255);
   int potbval = map(potb, 0, 1023, 0, 255);
-  
+
   for (int i = 0; i < NUM_LEDS; i++) {
     leds[i] = CRGB(potrval, potbval, potgval);
     FastLED.show();

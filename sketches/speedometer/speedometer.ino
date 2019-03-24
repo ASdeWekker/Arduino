@@ -1,8 +1,8 @@
 // Berekeningen
 // Straal van band in inch:
-// 
+//
 // Omtrek is pi*2*straal=
-// 
+//
 // Max snelheid is 35 mph / 56 kph
 // max rotatie per secondes: 7.25
 
@@ -83,4 +83,3 @@ void loop() {
   displayMPH();
   delay(1000);
 }
-
