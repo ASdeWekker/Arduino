@@ -30,6 +30,8 @@ void ledje() {
       Serial.println("Toggle aan");
     }
   }
+
+  server.send(200, "text/plain", "Verwerkt");
 }
 
 void setup() {
