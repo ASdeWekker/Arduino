@@ -12,17 +12,14 @@
             var xhttp = new XMLHttpRequest();
             function aan() {
                 xhttp.open("GET", "http://192.168.1.71/led?led=aan", true);
-                history.pushState("", "", "/netjesa");
                 xhttp.send();
             }
             function uit() {
                 xhttp.open("GET", "http://192.168.1.71/led?led=uit", true);
-                history.pushState("", "", "/netjesu");
                 xhttp.send();
             }
             function toggle() {
                 xhttp.open("GET", "http://192.168.1.71/led?led=toggle", true);
-                history.pushState("", "", "/netjest");
                 xhttp.send();
             }
         </script>
