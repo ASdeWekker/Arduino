@@ -17,13 +17,17 @@ void handleRoot() {
 void ledje() {
   if (server.arg("led") == "aan") {
     digitalWrite(ledpin, HIGH);
+    Serial.println("Led aan");
   } else if (server.arg("led") == "uit") {
     digitalWrite(ledpin, LOW);
+    Serial.println("Led uit");
   } else if (server.arg("led") == "toggle") {
     if (digitalRead(ledpin) == HIGH) {
       digitalWrite(ledpin, LOW);
+      Serial.println("Toggle uit");
     } else {
       digitalWrite(ledpin, HIGH);
+      Serial.println("Toggle aan");
     }
   }
 }
