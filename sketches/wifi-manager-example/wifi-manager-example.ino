@@ -31,7 +31,7 @@ void ledje() {
     }
   }
 
-  server.send(200, "text/plain", "Verwerkt");
+  server.send(200, "text/plain", "Verwerkt \n");
 }
 
 void setup() {
