@@ -1,14 +1,10 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
-
-const char* ssid      = "olmani";
-const char* password  = "Irisistop7!";
+#include <DNSServer.h>
+#include <WiFiManager.h>
 
 ESP8266WebServer server(80);
 
-const int REDPIN = 12; // D6
-const int BLUEPIN = 15; // D8 (was 13(D7))
-const int GREENPIN = 16; // D0 (was 14(D5))
 
 // rgb variables
 int r = 0;
