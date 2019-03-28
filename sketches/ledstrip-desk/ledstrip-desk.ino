@@ -14,41 +14,27 @@ CRGB leds[NUM_LEDS];
 
 // Function for choosing the strip's color.
 void stripColor(int r, int g, int b) {
-
+    for (int i = 0; i < NUM_LEDS; i++) {
+        leds[i] = CRGB(r,b,g);
+        FastLED.show();
+        delayMicroseconds(1);
+    }
 }
 
 // Led request handling.
 void ledControl() {
     if (server.arg("led") == "on") {
-        for (int i = 0; i < NUM_LEDS; i++) {
-            leds[i] = CRGB(0, 255, 255);
-            FastLED.show();
-            delayMicroseconds(1);
-        }
-        Serial.println("Led on");
+        stripColor(0,255,255);
+        check = HIGH;
     } else if (server.arg("led") == "off") {
-        for (int i = 0; i < NUM_LEDS; i++) {
-            leds[i] = CRGB::Black;
-            FastLED.show();
-            delayMicroseconds(1);
-        }
-        Serial.println("Led off");
+        stripColor(0,0,0);
+        check = LOW;
     } else if (server.arg("led") == "toggle") {
         if (check == HIGH) {
-            for (int i = 0; i < NUM_LEDS; i++) {
-                leds[i] = CRGB::Black;
-                FastLED.show();
-                delayMicroseconds(1);
-            }
-            Serial.println("Toggle off");
+            stripColor(0,0,0);
             check = LOW;
         } else {
-            for (int i = 0; i < NUM_LEDS; i++) {
-                leds[i] = CRGB(0, 255, 255);
-                FastLED.show();
-                delayMicroseconds(1);
-            }
-            Serial.println("Toggle on");
+            stripColor(0,255,255);
             check = HIGH;
         }
     }
