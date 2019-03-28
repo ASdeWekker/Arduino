@@ -38,7 +38,7 @@ void ledControl() {
             check = HIGH;
         }
     }
-    server.send(200, "text/plain", "Processed \n");
+    server.send(200, "text/plain", "Processed\n");
 }
 
 void setup() {
