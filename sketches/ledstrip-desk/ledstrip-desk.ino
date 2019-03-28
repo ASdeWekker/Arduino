@@ -4,13 +4,18 @@
 #include <WiFiManager.h>
 #include <FastLED.h>
 
-#define NUM_LEDS 5 // Still need to edit this when going live
+#define NUM_LEDS 30
 #define DATA_PIN D4
 bool check = LOW;
 
 ESP8266WebServer server(80);
 
 CRGB leds[NUM_LEDS];
+
+// Function for choosing the strip's color.
+void stripColor(int r, int g, int b) {
+
+}
 
 // Led request handling.
 void ledControl() {
