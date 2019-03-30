@@ -38,12 +38,13 @@ void ledControl() {
             check = HIGH;
         }
     }
-    server.send(200, "text/plain", "Processed\n");
+    server.send(200, "text/plain", "Processed.\n");
 }
 
 void setup() {
     // Setup basic stuff.
     Serial.begin(230400);
+
 
     // Wifi manager setup.
     WiFiManager wifiManager;
@@ -55,7 +56,7 @@ void setup() {
 
     server.on("/led", ledControl);
     server.begin();
-    Serial.println("Server started");
+    Serial.println("Server started.");
 }
 
 void loop() {
