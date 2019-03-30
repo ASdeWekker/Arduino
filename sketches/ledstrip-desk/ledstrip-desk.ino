@@ -41,7 +41,11 @@
 
 #define NUM_LEDS 30
 #define DATA_PIN D4
+
 bool check = LOW;
+int currgb[3] = {0,255,255};
+int oldrgb[3];
+int newrgb[3];
 
 ESP8266WebServer server(80);
 
