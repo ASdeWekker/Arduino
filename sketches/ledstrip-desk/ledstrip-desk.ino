@@ -63,7 +63,7 @@ void stripColor(int r, int g, int b) {
 // Led request handling.
 void ledControl() {
     if (server.arg("led") == "on") {
-        stripColor(0,255,255);
+        stripColor(currgb[0],currgb[1],currgb[2]);
         check = HIGH;
     } else if (server.arg("led") == "off") {
         stripColor(0,0,0);
@@ -73,7 +73,7 @@ void ledControl() {
             stripColor(0,0,0);
             check = LOW;
         } else {
-            stripColor(0,255,255);
+            stripColor(currgb[0],currgb[1],currgb[2]);
             check = HIGH;
         }
     }
