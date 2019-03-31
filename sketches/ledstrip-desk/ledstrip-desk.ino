@@ -41,6 +41,7 @@
     Alle functienamen kunnen nog veranderd worden.
 */
 
+// Include libraries.
 #include <ESP8266WiFi.h>
 #include <DNSServer.h>
 #include <ESP8266WebServer.h>
@@ -50,6 +51,7 @@
 #define NUM_LEDS 30
 #define DATA_PIN D4
 
+// Declare variables.
 bool check = LOW;
 int currgb[3] = {0,255,255};
 int oldrgb[3];
@@ -107,6 +109,6 @@ void setup() {
 }
 
 void loop() {
-    // Call the server
+    // Call the server.
     server.handleClient();
 }
