@@ -1,1 +1,2 @@
-char ding = "lol";
+char* ding = "lol";
+int i = 1;
