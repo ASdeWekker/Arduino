@@ -1,11 +1,10 @@
 import time
 from machine import Pin
 
-led = Pin(D4, Pin.OUT)
+led = Pin(2, Pin.OUT)
 
 while True:
-    if led.value():
-        led.off()
-    else:
-        led.on()
-    time.sleep_ms(200)
+	led.off()
+	time.sleep(0.2)
+	led.on()
+	time.sleep(0.2)
