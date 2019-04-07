@@ -2,25 +2,29 @@
 import machine
 import time
 import network
-import socket
+try:
+	import usocket as socket
+except:
+	import socket
 
 # Importing the wifi credentials.
 import wifi
 
 # Enable the network and connecting to it.
-sta_if = network.WLAN(network.STA_IF)
-sta_if.active(True)
-sta_if.connect(wifi.ssid,wifi.password)
-'''
+wlan = network.WLAN(network.STA_IF)
+wlan.active(True)
+wlan.connect(wifi.ssid,wifi.password)
+
 addr = socket.getaddrinfo("0.0.0.0", 80)[0][-1]
 
 s = socket.socket()
 s.bind(addr)
 s.listen(1)
 
+print("Listening on ", addr)
+print("My ip is ", wlan.ifconfig()[0])
+
 while True:
 	cl, addr = s.accept()
-	print("client connected from", addr)
-	cl.send("<h1>Alex de Wekker</h1>")
+	cl.send("<h1>Alex</h1>")
 	cl.close()
-'''
