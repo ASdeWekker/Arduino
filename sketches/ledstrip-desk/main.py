@@ -4,8 +4,9 @@ s.listen(5)
 
 while True:
 	conn, addr = s.accept()
-	request_raw = conn.recv(512)
+	request_raw = conn.recv(1024)
 	request = str(request_raw)
+	request_enc = request_raw.decode("utf8")
 	led_on = request.find("/?led=on")
 	led_off = request.find("/?led=off")
 
@@ -14,7 +15,9 @@ while True:
 		print(led_on)
 		print(led_off)
 		led.value(1)
-		print(request)
+		print("\nRaw\n", request_raw)
+		print("\nNormal\n", request)
+		print("\nEnc\n", request_enc)
 
 	if led_off == 6:
 		print("Led off")
