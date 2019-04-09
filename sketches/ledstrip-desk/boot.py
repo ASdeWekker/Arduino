@@ -12,6 +12,7 @@ except:
 from machine import Pin
 import network
 import wifi
+import time
 
 wlan = network.WLAN(network.STA_IF)
 wlan.active(True)
@@ -20,7 +21,7 @@ wlan.connect(wifi.ssid,wifi.password)
 while wlan.isconnected() == False:
 	pass
 
-print("Connection succesful")
+print("\nConnection succesful")
 print(wlan.ifconfig())
 
 led = Pin(2, Pin.OUT)
