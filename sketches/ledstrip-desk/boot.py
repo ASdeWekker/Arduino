@@ -9,10 +9,17 @@ try:
 	import usocket as socket
 except:
 	import socket
+try:
+	import utime as time
+except:
+	import time
+try:
+	import urequest as request
+except:
+	import request
 from machine import Pin
 import network
 import wifi
-import time
 
 wlan = network.WLAN(network.STA_IF)
 wlan.active(True)
