@@ -45,42 +45,43 @@ s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 s.bind(("", 80))
 s.listen(5)
 
-check = False
-
 def led_control(arg):
+	global check
 	if arg == "on":
 		print("led on")
-		led.on()
-		check = True
-	else if arg == "off":
-		print("led off")
 		led.off()
+		check = True
+	elif arg == "off":
+		print("led off")
+		led.on()
 		check = False
-	else if arg == "toggle":
+	elif arg == "toggle":
 		if not check:
 			print("led on")
-			led.on()
+			led.off()
 			check = True
 		else:
 			print("led off")
-			led.off()
+			led.on()
 			check = False
 
 
-def led_fade():
+#def led_fade():
 
 
-def pulse():
+#def pulse():
 
 
 def parser(get_request):
 	params = {}
 	arguments = get_request.split(" ")[1].split("&")
 	arguments[0] = arguments[0].replace("/","").replace("?","")
+	print(arguments)
 
 	for args in arguments:
 		arg = args.split("=")
 		params[arg[0]] = arg[1]
+	print(params)
 
 	if "state" in params:
 		led_control(params["state"])
