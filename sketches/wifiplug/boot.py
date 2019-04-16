@@ -21,4 +21,4 @@ while wlan.isconnected() == False:
 print("\nConnection succesful")
 print(str(wlan.ifconfig()[0]))
 
-led = Pin(2, Pin.OUT)
+led = Pin(0, Pin.OUT)
