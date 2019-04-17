@@ -23,4 +23,4 @@ print("\nConnection succesful")
 wlan.ifconfig(ipaddr.ip)
 print(str(wlan.ifconfig()[0]))
 
-led = Pin(0, Pin.OUT)
+relay = Pin(0, Pin.OUT)
