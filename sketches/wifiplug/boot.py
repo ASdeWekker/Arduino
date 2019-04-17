@@ -10,6 +10,7 @@ import time
 from machine import Pin
 import network
 import wifi
+import ipaddr
 
 wlan = network.WLAN(network.STA_IF)
 wlan.active(True)
@@ -19,6 +20,7 @@ while wlan.isconnected() == False:
 	pass
 
 print("\nConnection succesful")
+wlan.ifconfig(ipaddr.ip)
 print(str(wlan.ifconfig()[0]))
 
 led = Pin(0, Pin.OUT)
