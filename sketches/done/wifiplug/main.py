@@ -12,12 +12,16 @@ def control(arg):
 		relay.on()
 		check = False
 	elif arg == "toggle":
-		if not check:
-			relay.off()
-			check = True
-		else:
+		try:
+			if not check:
+				relay.off()
+				check = True
+			else:
+				relay.on()
+				check = False
+		except NameError:
 			relay.on()
-			check = False
+			check = True
 
 
 def parser(get_request):
