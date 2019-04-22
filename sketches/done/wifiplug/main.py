@@ -6,18 +6,18 @@ s.listen(5)
 def control(arg):
 	global check
 	if arg == "on":
-		relay.off()
+		relay.on()
 		check = True
 	elif arg == "off":
-		relay.on()
+		relay.off()
 		check = False
 	elif arg == "toggle":
 		try:
 			if not check:
-				relay.off()
+				relay.on()
 				check = True
 			else:
-				relay.on()
+				relay.off()
 				check = False
 		except NameError:
 			relay.on()
