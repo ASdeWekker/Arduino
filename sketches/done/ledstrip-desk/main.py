@@ -45,54 +45,51 @@ s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 s.bind(("", 80))
 s.listen(5)
 
-def led_control(arg):
+
+def control(arg):
 	global check
 	if arg == "on":
-		print("led on")
 		led.off()
 		check = True
 	elif arg == "off":
-		print("led off")
 		led.on()
 		check = False
 	elif arg == "toggle":
-		if not check:
-			print("led on")
+		try:
+			if not check:
+				led.off()
+				check = True
+			else:
+				led.on()
+				check = False
+		except NameError:
 			led.off()
 			check = True
-		else:
-			print("led off")
-			led.on()
-			check = False
 
 
-#def led_fade():
+#def fade():
 
 
 #def pulse():
 
 
 def parser(get_request):
-	params = {}
-	arguments = get_request.split(" ")[1].split("&")
-	arguments[0] = arguments[0].replace("/","").replace("?","")
-	print(arguments)
+	arguments = get_request.replace("/","").replace("?","").split(" ")[1].split("&")
 
+	params = {}
 	for args in arguments:
 		arg = args.split("=")
 		params[arg[0]] = arg[1]
-	print(params)
 
 	if "state" in params:
-		led_control(params["state"])
+		control(params["state"])
 
 
 while True:
 	conn, addr = s.accept()
-	request_raw = conn.recv(1024)
-	request = str(request_raw)
+	request = str(conn.recv(1024))
 
 	parser(request)
 
-	conn.sendall("Processed.\n")
+	conn.sendall(bytes('GET HTTP/1.0\r\n\r\n', 'utf8'))
 	conn.close()
