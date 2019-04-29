@@ -91,5 +91,5 @@ while True:
 
 	parser(request)
 
-	conn.sendall(bytes('GET HTTP/1.0\r\n\r\n', 'utf8'))
+	conn.sendall("Processed.\n")
 	conn.close()
