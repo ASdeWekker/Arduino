@@ -45,25 +45,39 @@ s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 s.bind(("", 80))
 s.listen(5)
 
+crgb = {
+	"r": 0,
+	"g": 255,
+	"b": 255
+}
+orgb = {}
+nrgb = {}
+
+
+def led(r,g,b):
+	for i in range(pixels):
+		np[i] = (r,b,g)
+		np.write()
+
 
 def control(arg):
 	global check
 	if arg == "on":
-		led.off()
+		led(crgb["r"],crgb["g"],crgb["b"])
 		check = True
 	elif arg == "off":
-		led.on()
+		led(0,0,0)
 		check = False
 	elif arg == "toggle":
 		try:
 			if not check:
-				led.off()
+				led(crgb["r"],crgb["g"],crgb["b"])
 				check = True
 			else:
-				led.on()
+				led(0,0,0)
 				check = False
 		except NameError:
-			led.off()
+			led(crgb["r"],crgb["g"],crgb["b"])
 			check = True
 
 

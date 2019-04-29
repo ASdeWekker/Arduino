@@ -8,6 +8,7 @@ gc.collect()
 import socket
 import time
 from machine import Pin
+from neopixel import NeoPixel
 import network
 import wifi
 import ipaddr
@@ -23,4 +24,6 @@ wlan.ifconfig(ipaddr.ip)
 print("\nConnection succesful")
 print(str(wlan.ifconfig()[0]))
 
-led = Pin(2, Pin.OUT)
+global pixels
+pixels = 30
+np = NeoPixel(Pin(2, Pin.OUT), pixels)
