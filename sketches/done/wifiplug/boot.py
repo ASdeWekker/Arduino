@@ -23,4 +23,4 @@ print("\nConnection succesful")
 wlan.ifconfig(ipaddr.ip)
 print(str(wlan.ifconfig()[0]))
 
-relay = Pin(0, Pin.OUT)
+relay = Pin(2, Pin.OUT) # normaal 0 maar voor het oefenen ff 2 pakken
