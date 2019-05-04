@@ -95,8 +95,8 @@ def parser(get_request):
 		arg = args.split("=")
 		params[arg[0]] = arg[1]
 
-	if "state" in params:
-		control(params["state"])
+	if "power" in params:
+		control(params["power"])
 
 
 while True:
