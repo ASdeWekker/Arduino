@@ -41,10 +41,12 @@
 	Alle functienamen kunnen nog veranderd worden.
 '''
 
+## Some nerdy connection stuff.
 s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 s.bind(("", 80))
 s.listen(5)
 
+## RGB values, also for old and new values.
 crgb = {
 	"r": 0,
 	"g": 255,
@@ -54,12 +56,16 @@ orgb = {}
 nrgb = {}
 
 
+## A function which takes rgb values as arguments
+#  and update the strip with this color.
 def led(r,g,b):
 	for i in range(pixels):
 		np[i] = (r,b,g)
 		np.write()
 
 
+## Function to check if the strip should be
+#  powered on or off, also works with toggle.
 def control(arg):
 	global check
 	if arg == "on":
@@ -87,6 +93,7 @@ def control(arg):
 #def pulse():
 
 
+## Function which takes the GET request and extracts the parameters from it.
 def parser(get_request):
 	arguments = get_request.replace("/","").replace("?","").split(" ")[1].split("&")
 
@@ -99,6 +106,7 @@ def parser(get_request):
 		control(params["power"])
 
 
+## The while loop to execute everything.
 while True:
 	conn, addr = s.accept()
 	request = str(conn.recv(1024))
