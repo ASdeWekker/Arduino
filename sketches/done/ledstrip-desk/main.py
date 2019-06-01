@@ -93,6 +93,32 @@ def control(arg):
 #def pulse():
 
 
+## A function to take a color value like 'yellow'
+#  and change the color to this. Can also power on the strip.
+def colorvalue(color):
+	if color == "red":
+		led(200,0,0)
+	elif color == "green":
+		led(0,200,0)
+	elif color == "blue":
+		led(0,0,200)
+	elif color == "yellow":
+		led(200,200,0)
+	elif color == "purple":
+		led(200,0,200)
+	elif color == "lightblue":
+		led(0,200,200)
+
+
+## A function to take an RGB value and change the color to this.
+#  Can also power on the strip.
+def colorcode(color):
+	args = color.split(",")
+	for i in range(3):
+		args[i] = int(float(args[i]))
+	led(args[0],args[1],args[2])
+
+
 ## Function which takes the GET request and extracts the parameters from it.
 def parser(get_request):
 	arguments = get_request.replace("/","").replace("?","").split(" ")[1].split("&")
@@ -104,6 +130,12 @@ def parser(get_request):
 
 	if "power" in params:
 		control(params["power"])
+
+	if "colorvalue" in params:
+		colorvalue(params["colorvalue"])
+
+	if "colorcode" in params:
+		colorcode(params["colorcode"])
 
 
 ## The while loop to execute everything.
