@@ -96,7 +96,7 @@ def control(arg):
 
 ## A function to take a color value like 'yellow'
 #  and change the color to this. Can also power on the strip.
-def colorvalue(color):
+def color(color):
 	if color == "red":
 		led(200,0,0)
 	elif color == "green":
@@ -113,7 +113,7 @@ def colorvalue(color):
 
 ## A function to take an RGB value and change the color to this.
 #  Can also power on the strip.
-def colorcode(color):
+def rgb(color):
 	args = color.split(",")
 	for i in range(3):
 		args[i] = int(float(args[i]))
@@ -132,11 +132,11 @@ def parser(get_request):
 	if "power" in params:
 		control(params["power"])
 
-	if "colorvalue" in params:
-		colorvalue(params["colorvalue"])
+	if "color" in params:
+		color(params["color"])
 
-	if "colorcode" in params:
-		colorcode(params["colorcode"])
+	if "rgb" in params:
+		rgb(params["rgb"])
 
 
 ## The while loop to execute everything.
