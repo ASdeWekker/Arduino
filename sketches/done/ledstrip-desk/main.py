@@ -87,6 +87,7 @@ def control(arg):
 			check = True
 
 
+## A function to fade to another color or fade to power off.
 #def fade():
 
 
