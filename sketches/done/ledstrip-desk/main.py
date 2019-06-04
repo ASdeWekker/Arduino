@@ -54,6 +54,8 @@ crgb = {
 }
 orgb = {}
 nrgb = {}
+# The check value.
+check = False
 
 
 ## A function which takes rgb values as arguments
@@ -97,29 +99,53 @@ def control(arg):
 ## A function to take a color value like 'yellow'
 #  and change the color to this. Can also power on the strip.
 def color(color):
+	global check
 	if color == "red":
 		led(255,0,0)
+		check = True
 	elif color == "green":
 		led(0,255,0)
+		check = True
 	elif color == "blue":
 		led(0,0,255)
+		check = True
 	elif color == "white":
 		led(255,255,255)
+		check = True
 	elif color == "yellow":
 		led(255,255,0)
+		check = True
 	elif color == "purple":
 		led(255,0,255)
+		check = True
 	elif color == "lightblue":
 		led(0,255,255)
+		check = True
 
 
 ## A function to take an RGB value and change the color to this.
 #  Can also power on the strip.
 def rgb(color):
+	global check
 	args = color.split(",")
 	for i in range(3):
 		args[i] = int(float(args[i]))
 	led(args[0],args[1],args[2])
+	check = True
+
+
+## A function to take a single r, g or b value.
+def single_rgb(color,value):
+	global check
+	if color == "r":
+		led(value,crgb["g"],crgb["b"])
+		check = True
+	if color == "g":
+		led(crgb["r"],value,crgb["b"])
+		check = True
+	if color == "b":
+		led(crgb["r"],crgb["g"],value)
+		check = True
 
 
 ## Function which takes the GET request and extracts the parameters from it.
@@ -139,6 +165,16 @@ def parser(get_request):
 
 	if "rgb" in params:
 		rgb(params["rgb"])
+
+	if "r" or "g" or "b" in params:
+		if "rgb" in params:
+			rgb(params["rgb"])
+		elif "r" in params:
+			single_rgb("r",params["r"])
+		elif "g" in params:
+			single_rgb("g",params["g"])
+		elif "b" in params:
+			single_rgb("b",params["b"])
 
 
 ## The while loop to execute everything.
