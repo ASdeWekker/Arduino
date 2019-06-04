@@ -98,17 +98,19 @@ def control(arg):
 #  and change the color to this. Can also power on the strip.
 def color(color):
 	if color == "red":
-		led(200,0,0)
+		led(255,0,0)
 	elif color == "green":
-		led(0,200,0)
+		led(0,255,0)
 	elif color == "blue":
-		led(0,0,200)
+		led(0,0,255)
+	elif color == "white":
+		led(255,255,255)
 	elif color == "yellow":
-		led(200,200,0)
+		led(255,255,0)
 	elif color == "purple":
-		led(200,0,200)
+		led(255,0,255)
 	elif color == "lightblue":
-		led(0,200,200)
+		led(0,255,255)
 
 
 ## A function to take an RGB value and change the color to this.
