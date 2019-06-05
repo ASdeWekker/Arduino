@@ -47,13 +47,12 @@ s.bind(("", 80))
 s.listen(5)
 
 ## RGB values, also for old and new values.
-crgb = {
-	"r": 0,
-	"g": 255,
-	"b": 255
-}
-orgb = {}
-nrgb = {}
+# current color.
+crgb = { "r": 0, "g": 255, "b": 255 }
+# old color.
+orgb = { "r": 0, "g": 0, "b": 0 }
+# new color.
+nrgb = { "r": 0, "g": 0, "b": 0 }
 # The check value.
 check = False
 
@@ -64,6 +63,7 @@ def led(r,g,b):
 	for i in range(pixels):
 		np[i] = (r,b,g)
 		np.write()
+	
 
 
 ## Function to check if the strip should be
