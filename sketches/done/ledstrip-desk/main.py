@@ -52,7 +52,7 @@ crgb = { "r": 0, "g": 255, "b": 255 }
 # old color.
 orgb = { "r": 0, "g": 0, "b": 0 }
 # new color.
-nrgb = { "r": 0, "g": 0, "b": 0 }
+#nrgb = { "r": 0, "g": 0, "b": 0 } # not yet needed.
 # The check value.
 check = False
 
@@ -60,6 +60,10 @@ check = False
 ## A function which takes rgb values as arguments
 #  and update the strip with this color.
 def led(r,g,b):
+	orgb = crgb
+	crgb["r"] = r
+	crgb["g"] = g
+	crgb["b"] = b
 	for i in range(pixels):
 		np[i] = (r,b,g)
 		np.write()
