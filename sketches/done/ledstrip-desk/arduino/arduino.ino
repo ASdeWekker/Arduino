@@ -53,9 +53,9 @@
 
 // Declare variables.
 bool check = LOW;
-int currgb[3] = {0,255,255};
-int oldrgb[3];
-int newrgb[3];
+int crgb[3] = {0,255,255};
+int orgb[3];
+int nrgb[3];
 
 ESP8266WebServer server(80);
 
@@ -73,7 +73,7 @@ void stripColor(int r, int g, int b) {
 // Led request handling.
 void ledControl() {
     if (server.arg("led") == "on") {
-        stripColor(currgb[0],currgb[1],currgb[2]);
+        stripColor(crgb[0],crgb[1],crgb[2]);
         check = HIGH;
     } else if (server.arg("led") == "off") {
         stripColor(0,0,0);
@@ -83,7 +83,7 @@ void ledControl() {
             stripColor(0,0,0);
             check = LOW;
         } else {
-            stripColor(currgb[0],currgb[1],currgb[2]);
+            stripColor(crgb[0],crgb[1],crgb[2]);
             check = HIGH;
         }
     }
