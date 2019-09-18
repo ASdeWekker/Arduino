@@ -2,7 +2,6 @@ pids
 *.pid
 *.log
 logs
-arduino/sketches/libraries
 .directory
 
 ipaddr.py
