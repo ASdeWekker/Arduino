@@ -146,7 +146,7 @@ void setup() {
 	FastLED.setBrightness(100);
 
 	// Add the routes and start the server.
-	server.on("/led", ledControl);
+	server.on("/power", ledControl);
 	server.on("/color", color);
 	server.begin();
 	Serial.println("Server started.");
