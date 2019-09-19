@@ -104,9 +104,9 @@ void setup() {
     while (WiFi.status() != WL_CONNECTED) {
         delay(250);
         Serial.print(".");
-        digitalWrite(pinMode(D4,OUTPUT),LOW);
+        digitalWrite(D4,LOW);
         delay(250);
-        digitalWrite(pinMode(D4,OUTPUT),HIGH);
+        digitalWrite(D4,HIGH);
     }
     Serial.println("Laat de strip heel snel heen en weer flitsen");
     Serial.println("Connected!");
