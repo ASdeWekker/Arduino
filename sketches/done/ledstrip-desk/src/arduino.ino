@@ -45,8 +45,10 @@
 #include <ESP8266WiFi.h>
 #include <DNSServer.h>
 #include <ESP8266WebServer.h>
-#include <WiFiManager.h>
 #include <FastLED.h>
+
+// Add the file with wifi credentials.
+#define "wifi.h"
 
 #define NUM_LEDS 30
 #define DATA_PIN D4
@@ -72,13 +74,13 @@ void stripColor(int r, int g, int b) {
 
 // Led request handling.
 void ledControl() {
-    if (server.arg("led") == "on") {
+    if (server.arg("power") == "on") {
         stripColor(crgb[0],crgb[1],crgb[2]);
         check = HIGH;
-    } else if (server.arg("led") == "off") {
+    } else if (server.arg("power") == "off") {
         stripColor(0,0,0);
         check = LOW;
-    } else if (server.arg("led") == "toggle") {
+    } else if (server.arg("power") == "toggle") {
         if (check == HIGH) {
             stripColor(0,0,0);
             check = LOW;
@@ -90,15 +92,13 @@ void ledControl() {
     server.send(200, "text/plain", "Processed.\n");
 }
 
+
 void setup() {
     // Setup basic stuff.
     Serial.begin(230400);
 
-
-    // Wifi manager setup.
-    WiFiManager wifiManager;
-    wifiManager.autoConnect("(_)_)::::::::D~~~", "password");
-    Serial.println(WiFi.localIP());
+    // Wifi setup.
+    
 
     FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);
     FastLED.setBrightness(100);
@@ -107,6 +107,7 @@ void setup() {
     server.begin();
     Serial.println("Server started.");
 }
+
 
 void loop() {
     // Call the server.
