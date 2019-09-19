@@ -48,13 +48,13 @@
 #include <FastLED.h>
 
 // Add the file with wifi credentials. Excluded in the .gitignore.
-#define "wifi.h"
+#include "wifi.h"
 
 #define NUM_LEDS 30
 #define DATA_PIN D4
 
 // Declare variables.
-bool check = LOW;
+bool check = LOW; 
 int crgb[3] = {0,255,255};
 int orgb[3];
 int nrgb[3];
