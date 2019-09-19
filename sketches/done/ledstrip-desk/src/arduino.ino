@@ -43,7 +43,6 @@
 
 // Include libraries.
 #include <ESP8266WiFi.h>
-//#include <DNSServer.h> I'm guessing wifi manager wanted this?
 #include <ESP8266WebServer.h>
 #include <FastLED.h>
 
@@ -63,7 +62,7 @@ ESP8266WebServer server(80);
 
 CRGB leds[NUM_LEDS];
 
-// Function for choosing the strip's color.
+// Function for changing the ledstrip's color.
 void stripColor(int r, int g, int b) {
 	for (int i = 0; i < NUM_LEDS; i++) {
 		leds[i] = CRGB(r,b,g);
@@ -72,7 +71,7 @@ void stripColor(int r, int g, int b) {
 	}
 }
 
-// Led request handling.
+// A function for turning the ledstrip on or off.
 void ledControl() {
 	if (server.arg("power") == "on") {
 		stripColor(crgb[0],crgb[1],crgb[2]);
@@ -92,7 +91,34 @@ void ledControl() {
 	server.send(200, "text/plain", "Processed.\n");
 }
 
+// A function for choosing a preprogrammed color.
+void color() {
+	if (server.arg("color") == "red") {
+		crgb[0] = 255;
+		crgb[1] = 0;
+		crgb[2] = 0;
+		check = HIGH;
+	} else if (server.arg("color") == "green") {
+		crgb[0] = 0;
+		crgb[1] = 255;
+		crgb[2] = 0;
+		check = HIGH;
+	} else if (server.arg("color") == "blue") {
+		crgb[0] = 0;
+		crgb[1] = 0;
+		crgb[2] = 255;
+		check = HIGH;
+	} else if (server.arg("color") == "lightblue") {
+		crgb[0] = 0;
+		crgb[1] = 255;
+		crgb[2] = 255;
+		check = HIGH;
+	}
+	stripColor(crgb[0],crgb[1],crgb[2]);
+	server.send(200, "text/plain", "Processed.\n");
+}
 
+// The setup.
 void setup() {
 	// Setup basic stuff.
 	Serial.begin(230400);
@@ -115,15 +141,18 @@ void setup() {
     Serial.print("IP address: ");
     Serial.println(WiFi.localIP());
 
+    // Some FastLED setup stuff.
 	FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);
 	FastLED.setBrightness(100);
 
+	// Add the routes and start the server.
 	server.on("/led", ledControl);
+	server.on("/color", color);
 	server.begin();
 	Serial.println("Server started.");
 }
 
-
+// The loop.
 void loop() {
 	// Call the server.
 	server.handleClient();
