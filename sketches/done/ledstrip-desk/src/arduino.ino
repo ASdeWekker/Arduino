@@ -121,6 +121,7 @@ void color() {
 // A function for entering an rgb value.
 void rgb() {
 	Serial.println(server.arg("color"));
+	server.send(200, "text/plain", "Processed.\n");
 }
 
 // The setup.
