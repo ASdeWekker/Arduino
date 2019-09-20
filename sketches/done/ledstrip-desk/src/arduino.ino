@@ -71,13 +71,6 @@ void stripColor(int r, int g, int b) {
 	}
 }
 
-// An encapsulating function to handle the client.
-void serverEnc() {
-	power();
-	color();
-	rgb();
-}
-
 // A function for turning the ledstrip on or off.
 void power() {
 	if (server.arg("power") == "on") {
@@ -158,7 +151,9 @@ void setup() {
 	FastLED.setBrightness(100);
 
 	// Add the routes and start the server.
-	server.on("/", serverEnc);
+	server.on("/power", power);
+	server.on("/color", color);
+	server.on("/rgb", rgb);
 	server.begin();
 	Serial.println("Server started.");
 }
