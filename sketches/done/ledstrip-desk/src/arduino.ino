@@ -136,24 +136,24 @@ void setup() {
 	Serial.begin(230400);
 
 	// Wifi setup.
-    Serial.print("Connecting to ");
-    Serial.println(ssid);
-    WiFi.begin(ssid, password);
-    while (WiFi.status() != WL_CONNECTED) {
-        delay(250);
-        Serial.print(".");
-        digitalWrite(D4,LOW);
-        delay(250);
-        digitalWrite(D4,HIGH);
-    }
-    Serial.println("Laat de strip heel snel heen en weer flitsen");
-    Serial.println("Connected!");
-    // Configure a static IP.
-    WiFi.config(ip, gateway, subnet);
-    Serial.print("IP address: ");
-    Serial.println(WiFi.localIP());
+	Serial.print("Connecting to ");
+	Serial.println(ssid);
+	WiFi.begin(ssid, password);
+	while (WiFi.status() != WL_CONNECTED) {
+		delay(250);
+		Serial.print(".");
+		digitalWrite(D4,LOW);
+		delay(250);
+		digitalWrite(D4,HIGH);
+	}
+	Serial.println("Laat de strip heel snel heen en weer flitsen");
+	Serial.println("Connected!");
+	// Configure a static IP.
+	WiFi.config(ip, gateway, subnet);
+	Serial.print("IP address: ");
+	Serial.println(WiFi.localIP());
 
-    // Some FastLED setup stuff.
+	// Some FastLED setup stuff.
 	FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);
 	FastLED.setBrightness(100);
 
