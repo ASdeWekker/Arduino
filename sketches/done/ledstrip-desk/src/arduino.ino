@@ -118,6 +118,8 @@ void color() {
 	server.send(200, "text/plain", "Processed.\n");
 }
 
+
+
 // The setup.
 void setup() {
 	// Setup basic stuff.
