@@ -41,6 +41,18 @@
 	Alle functienamen kunnen nog veranderd worden.
 */
 
+/*
+	Hue colors:
+		Red:		0
+		Orange:		32
+		Yellow:		64
+		Green:		96
+		Aqua:		128
+		Blue:		160
+		Purple:		192
+		Pink:		224
+*/
+
 // Include libraries.
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
