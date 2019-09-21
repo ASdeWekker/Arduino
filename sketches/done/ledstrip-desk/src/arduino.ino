@@ -70,33 +70,46 @@ int crgb[3] = {0,255,255};
 int orgb[3];
 int nrgb[3];
 
+uint8_t ccolor = 128;
+uint8_t ocolor;
+uint8_t ncolor;
+
 ESP8266WebServer server(80);
 
 CRGB leds[NUM_LEDS];
 
 // Function for changing the ledstrip's color.
-void stripColor(int r, int g, int b) {
-	for (int i = 0; i < NUM_LEDS; i++) {
-		leds[i] = CRGB(r,b,g);
-		FastLED.show();
-		delayMicroseconds(1);
+void stripColor(int color, bool power) { //int r, int g, int b) {
+	// for (int i = 0; i < NUM_LEDS; i++) {
+	// 	leds[i] = CRGB(r,b,g);
+	// 	FastLED.show();
+	// 	delayMicroseconds(1);
+	// }
+	if (power == HIGH) {
+		FastLED.showColor(CHSV(color, 255, 255));
+	} else if (power == LOW) {
+		FastLED.showColor(CHSV(0, 255, 0));
 	}
 }
 
 // A function for turning the ledstrip on or off.
 void power() {
 	if (server.arg("power") == "on") {
-		stripColor(crgb[0],crgb[1],crgb[2]);
+		// stripColor(crgb[0],crgb[1],crgb[2]);
+		stripColor(ccolor,HIGH);
 		check = HIGH;
 	} else if (server.arg("power") == "off") {
-		stripColor(0,0,0);
+		// stripColor(0,0,0);
+		stripColor(ccolor,LOW);
 		check = LOW;
 	} else if (server.arg("power") == "toggle") {
 		if (check == HIGH) {
-			stripColor(0,0,0);
+			// stripColor(0,0,0);
+			stripColor(ccolor,LOW);
 			check = LOW;
 		} else {
-			stripColor(crgb[0],crgb[1],crgb[2]);
+			// stripColor(crgb[0],crgb[1],crgb[2]);
+			stripColor(ccolor,HIGH);
 			check = HIGH;
 		}
 	}
@@ -106,27 +119,32 @@ void power() {
 // A function for choosing a preprogrammed color.
 void color() {
 	if (server.arg("color") == "red") {
-		crgb[0] = 255;
-		crgb[1] = 0;
-		crgb[2] = 0;
+		// crgb[0] = 255;
+		// crgb[1] = 0;
+		// crgb[2] = 0;
+		ccolor = 0;
 		check = HIGH;
 	} else if (server.arg("color") == "green") {
-		crgb[0] = 0;
-		crgb[1] = 255;
-		crgb[2] = 0;
+		// crgb[0] = 0;
+		// crgb[1] = 255;
+		// crgb[2] = 0;
+		ccolor = 96;
 		check = HIGH;
 	} else if (server.arg("color") == "blue") {
-		crgb[0] = 0;
-		crgb[1] = 0;
-		crgb[2] = 255;
+		// crgb[0] = 0;
+		// crgb[1] = 0;
+		// crgb[2] = 255;
+		ccolor = 160;
 		check = HIGH;
-	} else if (server.arg("color") == "lightblue") {
-		crgb[0] = 0;
-		crgb[1] = 255;
-		crgb[2] = 255;
+	} else if (server.arg("color") == "aqua") {
+		// crgb[0] = 0;
+		// crgb[1] = 255;
+		// crgb[2] = 255;
+		ccolor = 128;
 		check = HIGH;
 	}
-	stripColor(crgb[0],crgb[1],crgb[2]);
+	//stripColor(crgb[0],crgb[1],crgb[2]);
+	stripColor(ccolor,HIGH);
 	server.send(200, "text/plain", "Processed.\n");
 }
 
@@ -150,13 +168,12 @@ void setup() {
 	Serial.println(ssid);
 	WiFi.begin(ssid, password);
 	while (WiFi.status() != WL_CONNECTED) {
-		delay(250);
+		delay(50);
 		Serial.print(".");
-		digitalWrite(D4,LOW);
-		delay(250);
-		digitalWrite(D4,HIGH);
+		FastLED.showColor(CHSV(0,0,255));
+		delay(50);
+		FastLED.showColor(CHSV(0,0,0));
 	}
-	Serial.println("Laat de strip heel snel heen en weer flitsen");
 	Serial.println("Connected!");
 	// Configure a static IP.
 	WiFi.config(ip, gateway, subnet);
@@ -165,7 +182,7 @@ void setup() {
 
 	// Some FastLED setup stuff.
 	FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);
-	FastLED.setBrightness(100);
+	//FastLED.setBrightness(100);
 
 	// Add the routes and start the server.
 	server.on("/power", power);
