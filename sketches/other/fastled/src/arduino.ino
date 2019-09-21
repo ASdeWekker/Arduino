@@ -15,6 +15,6 @@ void setup() {
 void loop() {
 	static uint8_t hue = 0;
 	FastLED.showColor(CHSV(hue++, 255, 255));
-	delay(nauwelijks);
+	delay(normaal);
 	Serial.println(hue);
 }
