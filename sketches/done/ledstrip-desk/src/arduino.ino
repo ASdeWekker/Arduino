@@ -109,19 +109,38 @@ void power() {
 
 // A function for choosing a preprogrammed color.
 void color() {
-	if (server.arg("color") == "red") {
-		ccolor = 0;
-		check = HIGH;
-	} else if (server.arg("color") == "green") {
-		ccolor = 96;
-		check = HIGH;
-	} else if (server.arg("color") == "blue") {
-		ccolor = 160;
-		check = HIGH;
-	} else if (server.arg("color") == "aqua") {
-		ccolor = 128;
-		check = HIGH;
-	}
+	// if (server.arg("color") == "red") {
+	// 	ccolor = 0;
+	// 	check = HIGH;
+	// } else if (server.arg("color") == "green") {
+	// 	ccolor = 96;
+	// 	check = HIGH;
+	// } else if (server.arg("color") == "blue") {
+	// 	ccolor = 160;
+	// 	check = HIGH;
+	// } else if (server.arg("color") == "aqua") {
+	// 	ccolor = 128;
+	// 	check = HIGH;
+	// }
+	// static char arg = server.arg("color");
+	// switch (arg) {
+	// 	case "red":
+	// 		ccolor = 0;
+	// 	case "orange":
+	// 		ccolor = 32;
+	// 	case "yellow":
+	// 		ccolor = 64;
+	// 	case "green":
+	// 		ccolor = 96;
+	// 	case "aqua":
+	// 		ccolor = 128;
+	// 	case "blue":
+	// 		ccolor = 160;
+	// 	case "purple":
+	// 		ccolor = 192;
+	// 	case "pink":
+	// 		ccolor = 224;
+	// }
 	stripColor(ccolor,HIGH);
 	server.send(200, "text/plain", "Processed.\n");
 }
