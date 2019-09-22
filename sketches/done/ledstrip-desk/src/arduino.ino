@@ -109,19 +109,31 @@ void power() {
 
 // A function for choosing a preprogrammed color.
 void color() {
-	// if (server.arg("color") == "red") {
-	// 	ccolor = 0;
-	// 	check = HIGH;
-	// } else if (server.arg("color") == "green") {
-	// 	ccolor = 96;
-	// 	check = HIGH;
-	// } else if (server.arg("color") == "blue") {
-	// 	ccolor = 160;
-	// 	check = HIGH;
-	// } else if (server.arg("color") == "aqua") {
-	// 	ccolor = 128;
-	// 	check = HIGH;
-	// }
+	if (server.arg("color") == "red") {
+		ccolor = 0;
+		check = HIGH;
+	} else if (server.arg("color") == "orange") {
+		ccolor = 32;
+		check = HIGH;
+	} else if (server.arg("color") == "yellow") {
+		ccolor = 64;
+		check = HIGH;
+	} else if (server.arg("color") == "green") {
+		ccolor = 96;
+		check = HIGH;
+	} else if (server.arg("color") == "aqua") {
+		ccolor = 128;
+		check = HIGH;
+	} else if (server.arg("color") == "blue") {
+		ccolor = 160;
+		check = HIGH;
+	} else if (server.arg("color") == "purple") {
+		ccolor = 192;
+		check = HIGH;
+	} else if (server.arg("color") == "pink") {
+		ccolor = 224;
+		check = HIGH;
+	}
 	// static char arg = server.arg("color");
 	// switch (arg) {
 	// 	case "red":
