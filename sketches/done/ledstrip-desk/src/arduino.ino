@@ -63,6 +63,8 @@
 
 #define NUM_LEDS 30
 #define DATA_PIN D4
+#define LED_TYPE WS2811
+#define COLOR_ORDER BRG
 
 // Declare variables.
 bool check = LOW; 
@@ -83,12 +85,13 @@ void stripColor(int color, bool power) {
 	if (power == HIGH) {
 		FastLED.showColor(CHSV(color, 255, 255));
 	} else if (power == LOW) {
-		FastLED.showColor(CHSV(0, 255, 0));
+		FastLED.showColor(CHSV(color, 255, 0));
 	}
 }
 
 // A function for turning the ledstrip on or off.
 void power() {
+	// Checks which argument has been passed and turns the strip on or off.
 	if (server.arg("power") == "on") {
 		stripColor(ccolor,HIGH);
 		check = HIGH;
@@ -109,6 +112,7 @@ void power() {
 
 // A function for choosing a preprogrammed color.
 void color() {
+	// Check which color has been passed and act accordingly.
 	if (server.arg("color") == "red") {
 		ccolor = 0;
 		check = HIGH;
@@ -134,6 +138,7 @@ void color() {
 		ccolor = 224;
 		check = HIGH;
 	}
+	// A switch case seemed better than if statements, only it isn't working yet.
 	// static char arg = server.arg("color");
 	// switch (arg) {
 	// 	case "red":
@@ -153,12 +158,16 @@ void color() {
 	// 	case "pink":
 	// 		ccolor = 224;
 	// }
+
+	// Set the color and send the processed message.
 	stripColor(ccolor,HIGH);
 	server.send(200, "text/plain", "Processed.\n");
 }
 
 // A function for entering an rgb value.
 void rgb() {
+	// Still need to edit this to send back a message saying it isn't yet supported.
+	// Going to make a function which takes an rgb value and converts it to an hsv value.
 	String rgb = String(server.arg("rgb"));
 	Serial.print("String: ");
 	Serial.println(rgb);
@@ -169,6 +178,7 @@ void rgb() {
 
 // A function to emit a rainbow at a certain speed.
 void rainbow() {
+	// Not working yet, may need to put it directly in void loop?
 	static uint8_t hue = 0;
 	// static String speedString = server.arg("speed");
 	// static int speed = server.arg("speed").toInt();
@@ -201,7 +211,7 @@ void setup() {
 	Serial.println(WiFi.localIP());
 
 	// Some FastLED setup stuff.
-	FastLED.addLeds<WS2811, DATA_PIN, BRG>(leds, NUM_LEDS);
+	FastLED.addLeds<LED_TYPE, DATA_PIN, COLOR_ORDER>(leds, NUM_LEDS);
 	FastLED.setBrightness(100);
 
 	// Add the routes and start the server.
