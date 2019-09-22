@@ -107,6 +107,8 @@ void power() {
 			check = true;
 		}
 	}
+
+	// Send a message back to the client.
 	server.send(200, "text/plain", "Processed.\n");
 }
 
@@ -168,11 +170,13 @@ void color() {
 void rgb() {
 	// Still need to edit this to send back a message saying it isn't yet supported.
 	// Going to make a function which takes an rgb value and converts it to an hsv value.
-	String rgb = String(server.arg("rgb"));
+	static String rgb = String(server.arg("rgb"));
 	Serial.print("String: ");
 	Serial.println(rgb);
 	Serial.print("Normaal: ");
 	Serial.println(server.arg("rgb"));
+
+	// Send a message back to the client.
 	server.send(200, "text/plain", "Processed.\n");
 }
 
@@ -184,19 +188,20 @@ void rainbow() {
 	// static int speed = server.arg("speed").toInt();
 	FastLED.showColor(CHSV(hue++, 255, 255));
 	delay(50);
+
+	// Send a message back to the client.
 	server.send(200, "text/plain", "Processed.\n");
 }
 
 // A function to change the brightness.
 void brightness() {
-
+	static String 
 }
 
 
 // The setup.
 void setup() {
-	// Setup basic stuff.
-	Serial.begin(230400);
+	Serial.begin(230400); // Turn on the serial connection.
 
 	// Wifi setup.
 	Serial.print("Connecting to ");
@@ -210,8 +215,7 @@ void setup() {
 		FastLED.showColor(CHSV(0,0,0));
 	}
 	Serial.println("Connected!");
-	// Configure a static IP.
-	WiFi.config(ip, gateway, subnet);
+	WiFi.config(ip, gateway, subnet); // Configure a static IP.
 	Serial.print("IP address: ");
 	Serial.println(WiFi.localIP());
 
@@ -234,6 +238,5 @@ void setup() {
 
 // The loop.
 void loop() {
-	// Call the server.
-	server.handleClient();
+	server.handleClient(); // Call the server.
 }
