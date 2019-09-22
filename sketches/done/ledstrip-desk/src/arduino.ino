@@ -158,6 +158,17 @@ void rgb() {
 	server.send(200, "text/plain", "Processed.\n");
 }
 
+// A function to emit a rainbow at a certain speed.
+void rainbow() {
+	static uint8_t hue = 0;
+	// static String speedString = server.arg("speed");
+	// static int speed = server.arg("speed").toInt();
+	FastLED.showColor(CHSV(hue++, 255, 255));
+	delay(50);
+	server.send(200, "text/plain", "Processed.\n");
+}
+
+
 // The setup.
 void setup() {
 	// Setup basic stuff.
@@ -181,16 +192,18 @@ void setup() {
 	Serial.println(WiFi.localIP());
 
 	// Some FastLED setup stuff.
-	FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);
+	FastLED.addLeds<WS2811, DATA_PIN, BRG>(leds, NUM_LEDS);
 	//FastLED.setBrightness(100);
 
 	// Add the routes and start the server.
 	server.on("/power", power);
 	server.on("/color", color);
 	server.on("/rgb", rgb);
+	server.on("/rainbow", rainbow);
 	server.begin();
 	Serial.println("Server started.");
 }
+
 
 // The loop.
 void loop() {
