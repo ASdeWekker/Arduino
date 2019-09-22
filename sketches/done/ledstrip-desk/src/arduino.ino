@@ -1,4 +1,5 @@
-/*  Ik wil dat de strip via led wordt aangeroepen.
+/*
+	Ik wil dat de strip via led wordt aangeroepen.
 	En dat je dan zelf extra argumenten mee kan geven
 	zoals aan/uit, kleur en fade aan/uit of fade
 	naar een andere kleur.
@@ -51,6 +52,12 @@
 		Blue:		160
 		Purple:		192
 		Pink:		224
+*/
+
+/*
+	Going to add a todo list.
+	TODO:
+		Thing 1.
 */
 
 // Include libraries.
@@ -231,13 +238,14 @@ void setup() {
 	server.on("/power", power);
 	server.on("/color", color);
 	server.on("/rgb", rgb);
+	server.on("/hsv", hsv);
 	server.on("/rainbow", rainbow);
 	server.on("/brightness", brightness);
 	server.begin();
 	Serial.println("Server started.");
 
 	// Turn the strip on after powering the wemos on.
-	FastLED.showColor(CHSV(ccolor, 255, 25));
+	FastLED.showColor(CHSV(ccolor, 255, 255));
 }
 
 
