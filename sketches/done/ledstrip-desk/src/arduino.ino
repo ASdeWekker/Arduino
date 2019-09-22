@@ -166,18 +166,17 @@ void color() {
 	server.send(200, "text/plain", "Processed.\n");
 }
 
-// A function for entering an rgb value.
+// A function to change the color via an rgb value.
 void rgb() {
-	// Still need to edit this to send back a message saying it isn't yet supported.
 	// Going to make a function which takes an rgb value and converts it to an hsv value.
-	static String rgb = String(server.arg("rgb"));
-	Serial.print("String: ");
-	Serial.println(rgb);
-	Serial.print("Normaal: ");
-	Serial.println(server.arg("rgb"));
 
 	// Send a message back to the client.
-	server.send(200, "text/plain", "Processed.\n");
+	server.send(200, "text/plain", "This function is not yet implemented.\n");
+}
+
+// A function to change the color via an hsv value.
+void hsv() {
+	// This function takes an int and puts it into ccolor.
 }
 
 // A function to emit a rainbow at a certain speed.
@@ -195,7 +194,12 @@ void rainbow() {
 
 // A function to change the brightness.
 void brightness() {
-	static String 
+	String bright = String(server.arg("brightness"));
+	int brightint = bright.toInt();
+	FastLED.showColor(CHSV(ccolor, 255, brightint));
+
+	// Send a message back to the client.
+	server.send(200, "text/plain", "Processed.\n");
 }
 
 
@@ -228,11 +232,12 @@ void setup() {
 	server.on("/color", color);
 	server.on("/rgb", rgb);
 	server.on("/rainbow", rainbow);
+	server.on("/brightness", brightness);
 	server.begin();
 	Serial.println("Server started.");
 
 	// Turn the strip on after powering the wemos on.
-	FastLED.showColor(CHSV(ccolor, 255, 255));
+	FastLED.showColor(CHSV(ccolor, 255, 25));
 }
 
 
