@@ -67,7 +67,7 @@
 #define COLOR_ORDER BRG
 
 // Declare variables.
-bool check = LOW; 
+bool check = true; 
 int crgb[3] = {0,255,255};
 int orgb[3];
 int nrgb[3];
@@ -82,9 +82,9 @@ CRGB leds[NUM_LEDS];
 
 // Function for changing the ledstrip's color.
 void stripColor(int color, bool power) {
-	if (power == HIGH) {
+	if (power == true) {
 		FastLED.showColor(CHSV(color, 255, 255));
-	} else if (power == LOW) {
+	} else if (power == false) {
 		FastLED.showColor(CHSV(color, 255, 0));
 	}
 }
@@ -93,18 +93,18 @@ void stripColor(int color, bool power) {
 void power() {
 	// Checks which argument has been passed and turns the strip on or off.
 	if (server.arg("power") == "on") {
-		stripColor(ccolor,HIGH);
-		check = HIGH;
+		stripColor(ccolor, true);
+		check = true;
 	} else if (server.arg("power") == "off") {
-		stripColor(ccolor,LOW);
-		check = LOW;
+		stripColor(ccolor, false);
+		check = false;
 	} else if (server.arg("power") == "toggle") {
-		if (check == HIGH) {
-			stripColor(ccolor,LOW);
-			check = LOW;
+		if (check == true) {
+			stripColor(ccolor, false);
+			check = false;
 		} else {
-			stripColor(ccolor,HIGH);
-			check = HIGH;
+			stripColor(ccolor, true);
+			check = true;
 		}
 	}
 	server.send(200, "text/plain", "Processed.\n");
@@ -115,28 +115,28 @@ void color() {
 	// Check which color has been passed and act accordingly.
 	if (server.arg("color") == "red") {
 		ccolor = 0;
-		check = HIGH;
+		check = true;
 	} else if (server.arg("color") == "orange") {
 		ccolor = 32;
-		check = HIGH;
+		check = true;
 	} else if (server.arg("color") == "yellow") {
 		ccolor = 64;
-		check = HIGH;
+		check = true;
 	} else if (server.arg("color") == "green") {
 		ccolor = 96;
-		check = HIGH;
+		check = true;
 	} else if (server.arg("color") == "aqua") {
 		ccolor = 128;
-		check = HIGH;
+		check = true;
 	} else if (server.arg("color") == "blue") {
 		ccolor = 160;
-		check = HIGH;
+		check = true;
 	} else if (server.arg("color") == "purple") {
 		ccolor = 192;
-		check = HIGH;
+		check = true;
 	} else if (server.arg("color") == "pink") {
 		ccolor = 224;
-		check = HIGH;
+		check = true;
 	}
 	// A switch case seemed better than if statements, only it isn't working yet.
 	// static char arg = server.arg("color");
@@ -160,7 +160,7 @@ void color() {
 	// }
 
 	// Set the color and send the processed message.
-	stripColor(ccolor,HIGH);
+	stripColor(ccolor,true);
 	server.send(200, "text/plain", "Processed.\n");
 }
 
@@ -185,6 +185,11 @@ void rainbow() {
 	FastLED.showColor(CHSV(hue++, 255, 255));
 	delay(50);
 	server.send(200, "text/plain", "Processed.\n");
+}
+
+// A function to change the brightness.
+void brightness() {
+
 }
 
 
@@ -212,7 +217,7 @@ void setup() {
 
 	// Some FastLED setup stuff.
 	FastLED.addLeds<LED_TYPE, DATA_PIN, COLOR_ORDER>(leds, NUM_LEDS);
-	FastLED.setBrightness(100);
+	FastLED.setBrightness(255);
 
 	// Add the routes and start the server.
 	server.on("/power", power);
@@ -221,6 +226,9 @@ void setup() {
 	server.on("/rainbow", rainbow);
 	server.begin();
 	Serial.println("Server started.");
+
+	// Turn the strip on after powering the wemos on.
+	FastLED.showColor(CHSV(ccolor, 255, 255));
 }
 
 
