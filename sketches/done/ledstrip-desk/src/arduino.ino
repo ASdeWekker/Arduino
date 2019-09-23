@@ -145,29 +145,10 @@ void color() {
 	} else if (server.arg("color") == "pink") {
 		ccolor = 224;
 	}
-	// A switch case seemed better than if statements, only it isn't working yet.
-	// static char arg = server.arg("color");
-	// switch (arg) {
-	// 	case "red":
-	// 		ccolor = 0;
-	// 	case "orange":
-	// 		ccolor = 32;
-	// 	case "yellow":
-	// 		ccolor = 64;
-	// 	case "green":
-	// 		ccolor = 96;
-	// 	case "aqua":
-	// 		ccolor = 128;
-	// 	case "blue":
-	// 		ccolor = 160;
-	// 	case "purple":
-	// 		ccolor = 192;
-	// 	case "pink":
-	// 		ccolor = 224;
-	// }
 
 	check = true;
 	// rainbowSet = false;
+	
 	// Set the color and send the processed message.
 	stripColor(ccolor, true);
 	server.send(200, "text/plain", "Processed.\n");
