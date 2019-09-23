@@ -96,7 +96,7 @@ void stripColor(int color, bool power) {
 	if (power == true) {
 		FastLED.showColor(CHSV(color, 255, brightnessInt));
 	} else if (power == false) {
-		FastLED.showColor(CHSV(color, 255, brightnessInt));
+		FastLED.show(CRGB::Black);
 	}
 }
 
