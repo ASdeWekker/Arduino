@@ -126,28 +126,20 @@ void color() {
 	// Check which color has been passed and act accordingly.
 	if (server.arg("color") == "red") {
 		ccolor = 0;
-		check = true;
 	} else if (server.arg("color") == "orange") {
 		ccolor = 32;
-		check = true;
 	} else if (server.arg("color") == "yellow") {
 		ccolor = 64;
-		check = true;
 	} else if (server.arg("color") == "green") {
 		ccolor = 96;
-		check = true;
 	} else if (server.arg("color") == "aqua") {
 		ccolor = 128;
-		check = true;
 	} else if (server.arg("color") == "blue") {
 		ccolor = 160;
-		check = true;
 	} else if (server.arg("color") == "purple") {
 		ccolor = 192;
-		check = true;
 	} else if (server.arg("color") == "pink") {
 		ccolor = 224;
-		check = true;
 	}
 	// A switch case seemed better than if statements, only it isn't working yet.
 	// static char arg = server.arg("color");
@@ -170,6 +162,8 @@ void color() {
 	// 		ccolor = 224;
 	// }
 
+	check = true;
+	rainbowSet = false;
 	// Set the color and send the processed message.
 	stripColor(ccolor,true);
 	server.send(200, "text/plain", "Processed.\n");
@@ -190,23 +184,17 @@ void hsv() {
 
 // A function to emit a rainbow at a certain speed.
 void rainbow() {
-	// Not working yet, may need to put it directly in void loop?
-	// static uint8_t hue = 0;
-	// static String speedString = server.arg("speed");
-	// static int speed = server.arg("speed").toInt();
-	// FastLED.showColor(CHSV(hue++, 255, 255));
-	// delay(50);
 	rainbowSpeed = server.arg("speed").toInt();
 	rainbowSet = true;
+
 	// Send a message back to the client.
 	server.send(200, "text/plain", "Processed.\n");
 }
 
 // A function to change the brightness.
 void brightness() {
-	String bright = String(server.arg("brightness"));
-	int brightint = bright.toInt();
-	FastLED.showColor(CHSV(ccolor, 255, brightint));
+	int bright = server.arg("brightness").toInt();
+	FastLED.showColor(CHSV(ccolor, 255, bright));
 	rainbowSet = true;
 	// Send a message back to the client.
 	server.send(200, "text/plain", "Processed.\n");
