@@ -148,7 +148,7 @@ void color() {
 
 	check = true;
 	// rainbowSet = false;
-	
+
 	// Set the color and send the processed message.
 	stripColor(ccolor, true);
 	server.send(200, "text/plain", "Processed.\n");
@@ -169,6 +169,9 @@ void hsv() {
 	// This function takes an int and puts it into ccolor.
 	ccolor = server.arg("hsv").toInt();
 	stripColor(ccolor, true);
+
+	// Send a message back to the client.
+	server.send(200, "text/plain", "Processed.\n");
 }
 
 
