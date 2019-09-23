@@ -78,6 +78,8 @@ bool check = true;
 int crgb[3] = {0,255,255};
 int orgb[3];
 int nrgb[3];
+bool rainbowSet = false;
+int rainbowSpeed = 100;
 
 uint8_t ccolor = 128;
 uint8_t ocolor;
@@ -189,12 +191,13 @@ void hsv() {
 // A function to emit a rainbow at a certain speed.
 void rainbow() {
 	// Not working yet, may need to put it directly in void loop?
-	static uint8_t hue = 0;
+	// static uint8_t hue = 0;
 	// static String speedString = server.arg("speed");
 	// static int speed = server.arg("speed").toInt();
-	FastLED.showColor(CHSV(hue++, 255, 255));
-	delay(50);
-
+	// FastLED.showColor(CHSV(hue++, 255, 255));
+	// delay(50);
+	rainbowSpeed = server.arg("speed").toInt();
+	rainbowSet = true;
 	// Send a message back to the client.
 	server.send(200, "text/plain", "Processed.\n");
 }
@@ -204,7 +207,7 @@ void brightness() {
 	String bright = String(server.arg("brightness"));
 	int brightint = bright.toInt();
 	FastLED.showColor(CHSV(ccolor, 255, brightint));
-
+	rainbowSet = true;
 	// Send a message back to the client.
 	server.send(200, "text/plain", "Processed.\n");
 }
@@ -252,4 +255,12 @@ void setup() {
 // The loop.
 void loop() {
 	server.handleClient(); // Call the server.
+
+	if (rainbowSet) {
+		static uint8_t hue = 0;
+		FastLED.showColor(CHSV(hue++, 255, 255));
+		delay(rainbowSpeed);
+	} else {
+		FastLED.showColor(CHSV(ccolor, 255, 255));
+	}
 }
