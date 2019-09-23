@@ -75,11 +75,12 @@
 
 // Declare variables.
 bool check = true; 
-int crgb[3] = {0,255,255};
-int orgb[3];
-int nrgb[3];
+// int crgb[3] = {0,255,255}; // Not using these anymore due to the new hsv method.
+// int orgb[3];
+// int nrgb[3];
 bool rainbowSet = false;
-int rainbowSpeed = 100;
+int rainbowSpeed = 10;
+int brightnessInt = 255;
 
 uint8_t ccolor = 128;
 uint8_t ocolor;
@@ -89,14 +90,16 @@ ESP8266WebServer server(80);
 
 CRGB leds[NUM_LEDS];
 
+
 // Function for changing the ledstrip's color.
 void stripColor(int color, bool power) {
 	if (power == true) {
-		FastLED.showColor(CHSV(color, 255, 255));
+		FastLED.showColor(CHSV(color, 255, brightnessInt));
 	} else if (power == false) {
-		FastLED.showColor(CHSV(color, 255, 0));
+		FastLED.showColor(CHSV(color, 255, brightnessInt));
 	}
 }
+
 
 // A function for turning the ledstrip on or off.
 void power() {
@@ -120,6 +123,7 @@ void power() {
 	// Send a message back to the client.
 	server.send(200, "text/plain", "Processed.\n");
 }
+
 
 // A function for choosing a preprogrammed color.
 void color() {
@@ -163,11 +167,12 @@ void color() {
 	// }
 
 	check = true;
-	rainbowSet = false;
+	// rainbowSet = false;
 	// Set the color and send the processed message.
-	stripColor(ccolor,true);
+	stripColor(ccolor, true);
 	server.send(200, "text/plain", "Processed.\n");
 }
+
 
 // A function to change the color via an rgb value.
 void rgb() {
@@ -177,25 +182,30 @@ void rgb() {
 	server.send(200, "text/plain", "This function is not yet implemented.\n");
 }
 
+
 // A function to change the color via an hsv value.
 void hsv() {
 	// This function takes an int and puts it into ccolor.
+	ccolor = server.arg("hsv").toInt();
+	stripColor(ccolor, true);
 }
+
 
 // A function to emit a rainbow at a certain speed.
 void rainbow() {
-	rainbowSpeed = server.arg("speed").toInt();
-	rainbowSet = true;
+	// rainbowSpeed = server.arg("speed").toInt();
+	// rainbowSet = true;
 
 	// Send a message back to the client.
 	server.send(200, "text/plain", "Processed.\n");
 }
 
+
 // A function to change the brightness.
 void brightness() {
-	int bright = server.arg("brightness").toInt();
-	FastLED.showColor(CHSV(ccolor, 255, bright));
-	rainbowSet = true;
+	brightnessInt = server.arg("brightness").toInt();
+	stripColor(ccolor, true);
+
 	// Send a message back to the client.
 	server.send(200, "text/plain", "Processed.\n");
 }
@@ -206,37 +216,25 @@ void setup() {
 	Serial.begin(230400); // Turn on the serial connection.
 
 	// Wifi setup.
-	Serial.print("Connecting to ");
-	Serial.println(ssid);
 	WiFi.begin(ssid, password);
 	while (WiFi.status() != WL_CONNECTED) {
 		delay(50);
 		Serial.print(".");
-		FastLED.showColor(CHSV(0,0,255));
-		delay(50);
-		FastLED.showColor(CHSV(0,0,0));
 	}
-	Serial.println("Connected!");
 	WiFi.config(ip, gateway, subnet); // Configure a static IP.
-	Serial.print("IP address: ");
-	Serial.println(WiFi.localIP());
 
 	// Some FastLED setup stuff.
 	FastLED.addLeds<LED_TYPE, DATA_PIN, COLOR_ORDER>(leds, NUM_LEDS);
 	FastLED.setBrightness(255);
 
 	// Add the routes and start the server.
-	server.on("/power", power);
-	server.on("/color", color);
-	server.on("/rgb", rgb);
-	server.on("/hsv", hsv);
-	server.on("/rainbow", rainbow);
-	server.on("/brightness", brightness);
+	server.on("/power", power); server.on("/color", color); server.on("/rgb", rgb);
+	server.on("/hsv", hsv); server.on("/rainbow", rainbow); server.on("/brightness", brightness);
 	server.begin();
 	Serial.println("Server started.");
 
 	// Turn the strip on after powering the wemos on.
-	FastLED.showColor(CHSV(ccolor, 255, 255));
+	stripColor(ccolor, true);
 }
 
 
@@ -244,11 +242,11 @@ void setup() {
 void loop() {
 	server.handleClient(); // Call the server.
 
-	if (rainbowSet) {
-		static uint8_t hue = 0;
-		FastLED.showColor(CHSV(hue++, 255, 255));
-		delay(rainbowSpeed);
-	} else {
-		FastLED.showColor(CHSV(ccolor, 255, 255));
-	}
+	// if (rainbowSet) {
+	// 	static uint8_t hue = 0;
+	// 	FastLED.showColor(CHSV(hue++, 255, 255));
+	// 	delay(rainbowSpeed);
+	// } else {
+	// 	FastLED.showColor(CHSV(ccolor, 255, 255));
+	// }
 }
