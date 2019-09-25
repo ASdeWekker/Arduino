@@ -85,6 +85,7 @@ int brightnessInt = 255;
 uint8_t ccolor = 128;
 uint8_t ocolor;
 uint8_t ncolor;
+uint8_t hue = 0;
 
 ESP8266WebServer server(80);
 
@@ -147,7 +148,7 @@ void color() {
 	}
 
 	check = true;
-	// rainbowSet = false;
+	rainbowSet = false;
 
 	// Set the color and send the processed message.
 	stripColor(ccolor, true);
@@ -177,8 +178,8 @@ void hsv() {
 
 // A function to emit a rainbow at a certain speed.
 void rainbow() {
-	// rainbowSpeed = server.arg("speed").toInt();
-	// rainbowSet = true;
+	rainbowSpeed = server.arg("speed").toInt();
+	rainbowSet = true;
 
 	// Send a message back to the client.
 	server.send(200, "text/plain", "Processed.\n");
@@ -226,11 +227,10 @@ void setup() {
 void loop() {
 	server.handleClient(); // Call the server.
 
-	// if (rainbowSet) {
-	// 	static uint8_t hue = 0;
-	// 	FastLED.showColor(CHSV(hue++, 255, 255));
-	// 	delay(rainbowSpeed);
-	// } else {
-	// 	FastLED.showColor(CHSV(ccolor, 255, 255));
-	// }
+	if (rainbowSet) {
+		FastLED.showColor(CHSV(hue++, 255, brightnessInt));
+		delay(rainbowSpeed);
+	} else {
+		; // Do nothing.
+	}
 }
