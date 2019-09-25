@@ -74,10 +74,7 @@
 #define COLOR_ORDER BRG
 
 // Declare variables.
-bool check = true; 
-// int crgb[3] = {0,255,255}; // Not using these anymore due to the new hsv method.
-// int orgb[3];
-// int nrgb[3];
+bool check = true;
 bool rainbowSet = false;
 int rainbowSpeed = 10;
 int brightnessInt = 255;
