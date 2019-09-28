@@ -17,10 +17,12 @@ void power() {
 	} else if (server.arg("power") == "off") {
 		stripColor(ccolor, false);
 		check = false;
+		rainbowSet = false;
 	} else if (server.arg("power") == "toggle") {
 		if (check == true) {
 			stripColor(ccolor, false);
 			check = false;
+			rainbowSet = false;
 		} else {
 			stripColor(ccolor, true);
 			check = true;
@@ -87,6 +89,7 @@ void hsv() {
 void rainbow() {
 	rainbowSpeed = server.arg("speed").toInt();
 	rainbowSet = true;
+	check = true;
 
 	// Send a message back to the client.
 	server.send(200, "text/plain", "Turned on the rainbow.\n");
