@@ -13,6 +13,7 @@
 // Declare some variables.
 bool powerCheck = false;
 int relay = D4;
+int timeInSeconds = 0;
 
 // Start the webserver.
 ESP8266WebServer server(80);
@@ -24,18 +25,25 @@ void setup() {
 	Serial.begin(230400);
 
 	// Wifi setup.
-    Serial.print("Connecting to ");
-    Serial.println(ssid);
-    WiFi.begin(ssid, password);
-    while (WiFi.status() != WL_CONNECTED) {
-        
-    }
-    Serial.println("");
-    Serial.println("Connected!");
-    // Configure a static IP.
-    WiFi.config(ip, gateway, subnet);
-    Serial.print("IP address: ");
-    Serial.println(WiFi.localIP());
+	Serial.print("Connecting to ");
+	Serial.println(ssid);
+	WiFi.begin(ssid, password);
+	while (WiFi.status() != WL_CONNECTED) {
+		delay(1000);
+		timeInSeconds++;
+		Serial.print(timeInSeconds);
+		Serial.print(" ");
+	}
+	Serial.println("");
+	Serial.print("Seconds untill connection: ");
+	Serial.println(timeInSeconds);
+	
+	Serial.println("");
+	Serial.println("Connected!");
+	// Configure a static IP.
+	WiFi.config(ip, gateway, subnet);
+	Serial.print("IP address: ");
+	Serial.println(WiFi.localIP());
 
 	// Add the routes and start the server.
 	server.on("/power", power);
