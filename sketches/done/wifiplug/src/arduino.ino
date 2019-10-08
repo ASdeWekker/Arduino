@@ -26,6 +26,7 @@ ESP8266WebServer server(80);
 void setup() {
 	// Setup basic stuff.
 	Serial.begin(230400);
+	pinMode(RELAY_PIN, OUTPUT);
 
 	// Wifi setup.
 	Serial.print("Connecting to ");
