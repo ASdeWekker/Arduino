@@ -1,6 +1,7 @@
 
 /*
-	initial commit.
+	This is for the multiple wifi connected plugs I'll be having around my home.
+	First plug is for the amplifier.
 */
 
 // Include libraries.
