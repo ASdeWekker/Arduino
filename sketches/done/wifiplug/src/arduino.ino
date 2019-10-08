@@ -10,9 +10,11 @@
 #include "wifi.h"
 
 
+// Declare the relay pin.
+#define RELAY_PIN D3
+
 // Declare some variables.
 bool powerCheck = false;
-int relay = D4;
 int timeInSeconds = 0;
 
 // Start the webserver.

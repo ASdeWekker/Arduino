@@ -1,19 +1,19 @@
 // This is where all the functions will live.
 
-// A function for controlling the relay.
+// A function for controlling the RELAY_PIN.
 void power() {
 	if (server.arg("power") == "on") {
-		digitalWrite(relay, HIGH);
+		digitalWrite(RELAY_PIN, HIGH);
 		powerCheck = true;
 	} else if (server.arg("power") == "off") {
-		digitalWrite(relay, LOW);
+		digitalWrite(RELAY_PIN, LOW);
 		powerCheck = false;
 	} else if (server.arg("power") == "toggle") {
 		if (powerCheck == true) {
-			digitalWrite(relay, LOW);
+			digitalWrite(RELAY_PIN, LOW);
 			powerCheck = false;
 		} else if (powerCheck == false) {
-			digitalWrite(relay, HIGH);
+			digitalWrite(RELAY_PIN, HIGH);
 			powerCheck = true;
 		}
 	}
