@@ -37,7 +37,7 @@ void power() {
 
 	// Send a message back to the client.
 	// server.send(200, "text/plain", "Processed.\n");
-	serverSend("Processed2.\n");
+	serverSend("Processed.\n");
 }
 
 
@@ -67,7 +67,7 @@ void color() {
 
 	// Set the color and send the processed message.
 	stripColor(ccolor, true);
-	server.send(200, "text/plain", "Set the color: " + server.arg("color") + ".\n");
+	serverSend("Set the color: " + server.arg("color") + ".\n");
 }
 
 
@@ -76,7 +76,7 @@ void rgb() {
 	// Going to make a function which takes an rgb value and converts it to an hsv value.
 
 	// Send a message back to the client.
-	server.send(200, "text/plain", "This function is not yet implemented.\n");
+	serverSend("This function is not yet implemented.\n");
 	// server.send(200, "text/plain", "Processed the rgb color and converted it to hsv.\n");
 }
 
@@ -88,7 +88,7 @@ void hsv() {
 	stripColor(ccolor, true);
 
 	// Send a message back to the client.
-	server.send(200, "text/plain", "Processed the hsv color.\n");
+	serverSend("Processed the hsv color.\n");
 }
 
 
@@ -99,7 +99,7 @@ void rainbow() {
 	check = true;
 
 	// Send a message back to the client.
-	server.send(200, "text/plain", "Turned on the rainbow.\n");
+	serverSend("Turned on the rainbow.\n");
 }
 
 
@@ -109,5 +109,5 @@ void brightness() {
 	stripColor(ccolor, true);
 
 	// Send a message back to the client.
-	server.send(200, "text/plain", "Changed brightness.\n");
+	serverSend("Changed brightness.\n");
 }
