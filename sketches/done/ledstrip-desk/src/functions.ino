@@ -1,4 +1,10 @@
-// Function for changing the ledstrip's color.
+// A function to set the proper CORS header.
+void serverSend(String message) {
+	server.sendHeader("Access-Control-Allow-Origin", "*");
+	server.send(200, "text/plain", message);
+}
+
+// A function for changing the ledstrip's color.
 void stripColor(int color, bool power) {
 	if (power == true) {
 		FastLED.showColor(CHSV(color, 255, brightnessInt));
@@ -30,7 +36,8 @@ void power() {
 	}
 
 	// Send a message back to the client.
-	server.send(200, "text/plain", "Processed.\n");
+	// server.send(200, "text/plain", "Processed.\n");
+	serverSend("Processed2.\n");
 }
 
 
