@@ -1,5 +1,11 @@
 // This is where all the functions will live.
 
+// A function to set the proper CORS header.
+void serverSend(String message) {
+	server.sendHeader("Access-Control-Allow-Origin", "*");
+	server.send(200, "text/plain", message);
+}
+
 // A function for controlling the RELAY_PIN.
 void power() {
 	if (server.arg("power") == "on") {
@@ -17,5 +23,5 @@ void power() {
 			powerCheck = true;
 		}
 	}
-	server.send(200, "text/plain", "Processed.\n");
+	serverSend("Processed.\n");
 }
