@@ -20,23 +20,26 @@ void power() {
 	if (server.arg("power") == "on") {
 		stripColor(ccolor, true);
 		check = true;
+		wakeUpCheck = false;
 	} else if (server.arg("power") == "off") {
 		stripColor(ccolor, false);
 		check = false;
+		wakeUpCheck = false;
 		rainbowSet = false;
 	} else if (server.arg("power") == "toggle") {
 		if (check == true) {
 			stripColor(ccolor, false);
 			check = false;
 			rainbowSet = false;
+			wakeUpCheck = false;
 		} else {
 			stripColor(ccolor, true);
 			check = true;
+			wakeUpCheck = false;
 		}
 	}
 
 	// Send a message back to the client.
-	// server.send(200, "text/plain", "Processed.\n");
 	serverSend("Processed.\n");
 }
 
@@ -64,6 +67,7 @@ void color() {
 
 	check = true;
 	rainbowSet = false;
+	wakeUpCheck = false;
 
 	// Set the color and send the processed message.
 	stripColor(ccolor, true);
@@ -77,7 +81,6 @@ void rgb() {
 
 	// Send a message back to the client.
 	serverSend("This function is not yet implemented.\n");
-	// server.send(200, "text/plain", "Processed the rgb color and converted it to hsv.\n");
 }
 
 
@@ -86,6 +89,9 @@ void hsv() {
 	// This function takes an int and puts it into ccolor.
 	ccolor = server.arg("hsv").toInt();
 	stripColor(ccolor, true);
+	check = true;
+	rainbowSet = false;
+	wakeUpCheck = false;
 
 	// Send a message back to the client.
 	serverSend("Processed the hsv color.\n");
@@ -97,6 +103,7 @@ void rainbow() {
 	rainbowSpeed = server.arg("speed").toInt();
 	rainbowSet = true;
 	check = true;
+	wakeUpCheck = false;
 
 	// Send a message back to the client.
 	serverSend("Turned on the rainbow.\n");
@@ -110,4 +117,11 @@ void brightness() {
 
 	// Send a message back to the client.
 	serverSend("Changed brightness.\n");
+}
+
+void wakeUp() {
+	check = true;
+	rainbowSet = false;
+	wakeUpCheck = true;
+	serverSend("Wake up.\n");
 }

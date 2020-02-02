@@ -78,6 +78,7 @@ bool check = true;
 bool rainbowSet = false;
 int rainbowSpeed = 10;
 int brightnessInt = 255;
+bool wakeUpCheck = false;
 
 uint8_t ccolor = 128;
 uint8_t ocolor;
@@ -113,6 +114,7 @@ void setup() {
 	// Add the routes and start the server.
 	server.on("/power", power); server.on("/color", color); server.on("/rgb", rgb);
 	server.on("/hsv", hsv); server.on("/rainbow", rainbow); server.on("/brightness", brightness);
+	server.on("/wakeup", wakeUp);
 	server.begin();
 	Serial.println("Server started.");
 
@@ -128,6 +130,11 @@ void loop() {
 	if (rainbowSet) {
 		FastLED.showColor(CHSV(hue++, 255, brightnessInt));
 		delay(rainbowSpeed);
+	} else if (wakeUpCheck) {
+		FastLED.showColor(CHSV(0, 255, brightnessInt));
+		delay(100);
+		FastLED.showColor(CHSV(160, 255, brightnessInt));
+		delay(100);
 	} else {
 		; // Do nothing.
 	}
