@@ -1,3 +1,8 @@
+// Display a message when root is accessed.
+void root() {
+	serverSend("You're not supposed to be here");
+}
+
 // A function to set the proper CORS header.
 void serverSend(String message) {
 	server.sendHeader("Access-Control-Allow-Origin", "*");
