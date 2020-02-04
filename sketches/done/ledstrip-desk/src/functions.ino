@@ -11,10 +11,14 @@ void serverSend(String message) {
 
 // A function for changing the ledstrip's color.
 void stripColor(int color, bool power) {
-	if (power == true) {
-		FastLED.showColor(CHSV(color, 255, brightnessInt));
-	} else if (power == false) {
-		FastLED.show(CRGB::Black);
+	if (color == 1) { // When 1 is chosen the strip turns white.
+		FastLED.showColor(CHSV(color, 0, brightnessInt));
+	} else { // Otherwise do the normal thing.
+		if (power == true) {
+			FastLED.showColor(CHSV(color, 255, brightnessInt));
+		} else if (power == false) {
+			FastLED.show(CRGB::Black);
+		}
 	}
 }
 
@@ -68,6 +72,8 @@ void color() {
 		ccolor = 192;
 	} else if (server.arg("color") == "pink") {
 		ccolor = 224;
+	} else if (server.arg("color") == "white") {
+		ccolor = 1;
 	}
 
 	check = true;
