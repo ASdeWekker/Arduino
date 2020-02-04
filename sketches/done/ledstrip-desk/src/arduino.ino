@@ -84,6 +84,7 @@ uint8_t ccolor = 128;
 uint8_t ocolor;
 uint8_t ncolor;
 uint8_t hue = 0;
+uint8_t saturation = 255;
 
 ESP8266WebServer server(80);
 
@@ -131,10 +132,11 @@ void loop() {
 		FastLED.showColor(CHSV(hue++, 255, brightnessInt));
 		delay(rainbowSpeed);
 	} else if (wakeUpCheck) {
-		FastLED.showColor(CHSV(0, 255, brightnessInt));
-		delay(100);
-		FastLED.showColor(CHSV(160, 255, brightnessInt));
-		delay(100);
+		// Set the hue to 22 for a nice orange and keep decreasing the saturation.
+		FastLED.showColor(CHSV(22, saturation--, brightnessInt));
+		// This should be half an hour (wake up time) divided by the max value for saturation.
+		delay(1000 * 60 * 30 / 255);
+		// If the saturation hits 0
 	} else {
 		; // Do nothing.
 	}

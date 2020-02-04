@@ -130,7 +130,11 @@ void brightness() {
 	serverSend("Changed brightness.\n");
 }
 
+// A function to wake up nicely in the morning.
 void wakeUp() {
+	// Set the saturation back to 255.
+	saturation = 255;
+	
 	check = true;
 	rainbowSet = false;
 	wakeUpCheck = true;
