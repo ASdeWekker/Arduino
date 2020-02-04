@@ -73,7 +73,7 @@ void color() {
 	} else if (server.arg("color") == "pink") {
 		ccolor = 224;
 	} else if (server.arg("color") == "white") {
-		ccolor = 1;
+		ccolor = 1; // This isn't the true white value but stripColor() will check for it.
 	}
 
 	check = true;
