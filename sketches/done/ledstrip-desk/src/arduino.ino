@@ -139,7 +139,10 @@ void loop() {
 		FastLED.showColor(CHSV(22, saturation--, brightnessVal));
 		// This should be half an hour (wake up time) divided by the max value for saturation.
 		delay(1000 * 60 * 30 / 255);
-		// If the saturation hits 0
+		// If the saturation hits 0 turn the function off.
+		if (saturation == 0) {
+			wakeUpCheck = false;
+		}
 	} else if (fadeCheck) {
 		// Two for loops to fade the led brightness from high to low and back.
 		for (int i = 255; i > 50; i--) {
