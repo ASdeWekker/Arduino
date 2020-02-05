@@ -12,10 +12,10 @@ void serverSend(String message) {
 // A function for changing the ledstrip's color.
 void stripColor(int color, bool power) {
 	if (color == 1) { // When 1 is chosen the strip turns white.
-		FastLED.showColor(CHSV(color, 0, brightnessInt));
+		FastLED.showColor(CHSV(color, 0, brightnessVal));
 	} else { // Otherwise do the normal thing.
 		if (power == true) {
-			FastLED.showColor(CHSV(color, 255, brightnessInt));
+			FastLED.showColor(CHSV(color, 255, brightnessVal));
 		} else if (power == false) {
 			FastLED.show(CRGB::Black);
 		}
@@ -30,21 +30,25 @@ void power() {
 		stripColor(ccolor, true);
 		check = true;
 		wakeUpCheck = false;
+		fadeCheck = false;
 	} else if (server.arg("power") == "off") {
 		stripColor(ccolor, false);
 		check = false;
 		wakeUpCheck = false;
-		rainbowSet = false;
+		rainbowCheck = false;
+		fadeCheck = false;
 	} else if (server.arg("power") == "toggle") {
 		if (check == true) {
 			stripColor(ccolor, false);
 			check = false;
-			rainbowSet = false;
+			rainbowCheck = false;
 			wakeUpCheck = false;
+			fadeCheck = false;
 		} else {
 			stripColor(ccolor, true);
 			check = true;
 			wakeUpCheck = false;
+			fadeCheck = false;
 		}
 	}
 
@@ -77,7 +81,7 @@ void color() {
 	}
 
 	check = true;
-	rainbowSet = false;
+	rainbowCheck = false;
 	wakeUpCheck = false;
 
 	// Set the color and send the processed message.
@@ -101,8 +105,9 @@ void hsv() {
 	ccolor = server.arg("hsv").toInt();
 	stripColor(ccolor, true);
 	check = true;
-	rainbowSet = false;
+	rainbowCheck = false;
 	wakeUpCheck = false;
+	fadeCheck = false;
 
 	// Send a message back to the client.
 	serverSend("Processed the hsv color.\n");
@@ -112,9 +117,10 @@ void hsv() {
 // A function to emit a rainbow at a certain speed.
 void rainbow() {
 	rainbowSpeed = server.arg("speed").toInt();
-	rainbowSet = true;
+	rainbowCheck = true;
 	check = true;
 	wakeUpCheck = false;
+	fadeCheck = false;
 
 	// Send a message back to the client.
 	serverSend("Turned on the rainbow.\n");
@@ -123,7 +129,7 @@ void rainbow() {
 
 // A function to change the brightness.
 void brightness() {
-	brightnessInt = server.arg("brightness").toInt();
+	brightnessVal = server.arg("brightness").toInt();
 	stripColor(ccolor, true);
 
 	// Send a message back to the client.
@@ -136,7 +142,25 @@ void wakeUp() {
 	saturation = 255;
 	
 	check = true;
-	rainbowSet = false;
+	rainbowCheck = false;
 	wakeUpCheck = true;
+	fadeCheck = false;
 	serverSend("Wake up.\n");
+}
+
+// A function to fade a color in and out.
+void fade() {
+	fadeDelay = server.arg("delay").toInt();
+
+	if (fadeDelay == 0) {
+		fadeCheck = false;
+		serverSend("Turned off fade.\n");
+	} else {
+		fadeCheck = true;
+		serverSend("Turned on fade.\n");
+	}
+	
+	check = true;
+	wakeUpCheck = false;
+	rainbowCheck = false;
 }

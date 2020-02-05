@@ -75,16 +75,19 @@
 
 // Declare variables.
 bool check = true;
-bool rainbowSet = false;
-int rainbowSpeed = 10;
-int brightnessInt = 255;
+bool rainbowCheck = false;
 bool wakeUpCheck = false;
+bool fadeCheck = false;
+
+int rainbowSpeed = 10;
+int fadeDelay = 10;
 
 uint8_t ccolor = 128;
 uint8_t ocolor;
 uint8_t ncolor;
 uint8_t hue = 0;
 uint8_t saturation = 255;
+uint8_t brightnessVal = 255;
 
 ESP8266WebServer server(80);
 
@@ -115,7 +118,7 @@ void setup() {
 	// Add the routes and start the server.
 	server.on("/power", power); server.on("/color", color); server.on("/rgb", rgb);
 	server.on("/hsv", hsv); server.on("/rainbow", rainbow); server.on("/brightness", brightness);
-	server.on("/wakeup", wakeUp); server.on("/", root);
+	server.on("/wakeup", wakeUp); server.on("/", root); server.on("/fade", fade);
 	server.begin();
 	Serial.println("Server started.");
 
@@ -128,15 +131,25 @@ void setup() {
 void loop() {
 	server.handleClient(); // Call the server.
 
-	if (rainbowSet) {
-		FastLED.showColor(CHSV(hue++, 255, brightnessInt));
+	if (rainbowCheck) {
+		FastLED.showColor(CHSV(hue++, 255, brightnessVal));
 		delay(rainbowSpeed);
 	} else if (wakeUpCheck) {
 		// Set the hue to 22 for a nice orange and keep decreasing the saturation.
-		FastLED.showColor(CHSV(22, saturation--, brightnessInt));
+		FastLED.showColor(CHSV(22, saturation--, brightnessVal));
 		// This should be half an hour (wake up time) divided by the max value for saturation.
 		delay(1000 * 60 * 30 / 255);
 		// If the saturation hits 0
+	} else if (fadeCheck) {
+		// Two for loops to fade the led brightness from high to low and back.
+		for (int i = 255; i > 50; i--) {
+			FastLED.showColor(CHSV(ccolor, 255, i));
+			delay(fadeDelay);
+		}
+		for (int i = 50; i < 256; i++) {
+			FastLED.showColor(CHSV(ccolor, 255, i));
+			delay(fadeDelay);
+		}
 	} else {
 		; // Do nothing.
 	}
