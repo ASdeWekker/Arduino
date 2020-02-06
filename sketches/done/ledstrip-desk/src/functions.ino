@@ -151,13 +151,13 @@ void wakeUp() {
 // A function to fade a color in and out.
 void fade() {
 	fadeDelay = server.arg("delay").toInt();
-
-	if (fadeDelay == 0) {
-		fadeCheck = false;
-		serverSend("Turned off fade.\n");
-	} else {
+	
+	if (fadeDelay != 0) {
 		fadeCheck = true;
 		serverSend("Turned on fade.\n");
+	} else {
+		fadeCheck = false;
+		serverSend("Turned off fade.\n");
 	}
 	
 	check = true;
