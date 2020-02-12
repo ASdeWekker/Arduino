@@ -78,8 +78,9 @@ bool check = true;
 bool rainbowCheck = false;
 bool wakeUpCheck = false;
 bool fadeCheck = false;
+bool rainbowWasOn = false;
 
-int rainbowSpeed = 10;
+int rainbowSpeed = 222;
 int fadeDelay = 10;
 
 uint8_t ccolor = 128;
@@ -131,29 +132,34 @@ void setup() {
 void loop() {
 	server.handleClient(); // Call the server.
 
-	if (rainbowCheck) {
-		FastLED.showColor(CHSV(hue++, 255, brightnessVal));
-		delay(rainbowSpeed);
-	} else if (wakeUpCheck) {
-		// Set the hue to 22 for a nice orange and keep decreasing the saturation.
-		FastLED.showColor(CHSV(22, saturation--, brightnessVal));
-		// This should be half an hour (wake up time) divided by the max value for saturation.
-		delay(1000 * 60 * 30 / 255);
-		// If the saturation hits 0 turn the function off.
-		if (saturation == 0) {
-			wakeUpCheck = false;
-		}
-	} else if (fadeCheck) {
-		// Two for loops to fade the led brightness from high to low and back.
-		for (int i = 255; i > 50; i--) {
-			FastLED.showColor(CHSV(ccolor, 255, i));
-			delay(fadeDelay);
-		}
-		for (int i = 50; i < 256; i++) {
-			FastLED.showColor(CHSV(ccolor, 255, i));
-			delay(fadeDelay);
-		}
+	// Check if the rainbow function was on before turning it off and than turn it on again.
+	if (rainbowWasOn) {
+		rainbowCheck = true;
 	} else {
-		; // Do nothing.
+		if (rainbowCheck) {
+			FastLED.showColor(CHSV(hue++, 255, brightnessVal));
+			delay(rainbowSpeed);
+		} else if (wakeUpCheck) {
+			// Set the hue to 22 for a nice orange and keep decreasing the saturation.
+			FastLED.showColor(CHSV(22, saturation--, brightnessVal));
+			// This should be half an hour (wake up time) divided by the max value for saturation.
+			delay(1000 * 60 * 30 / 255);
+			// If the saturation hits 0 turn the function off.
+			if (saturation == 0) {
+				wakeUpCheck = false;
+			}
+		} else if (fadeCheck) {
+			// Two for loops to fade the led brightness from high to low and back.
+			for (int i = 255; i > 50; i--) {
+				FastLED.showColor(CHSV(ccolor, 255, i));
+				delay(fadeDelay);
+			}
+			for (int i = 50; i < 256; i++) {
+				FastLED.showColor(CHSV(ccolor, 255, i));
+				delay(fadeDelay);
+			}
+		} else {
+			; // Do nothing.
+		}
 	}
 }

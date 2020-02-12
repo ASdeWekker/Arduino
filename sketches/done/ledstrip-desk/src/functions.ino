@@ -27,11 +27,19 @@ void stripColor(int color, bool power) {
 void power() {
 	// Checks which argument has been passed and turns the strip on or off.
 	if (server.arg("power") == "on") {
-		stripColor(ccolor, true);
+		if (rainbowWasOn) {
+			rainbowCheck = true;
+		} else {
+			stripColor(ccolor, true);
+		}
 		check = true;
 		wakeUpCheck = false;
 		fadeCheck = false;
+		rainbowWasOn = false;
 	} else if (server.arg("power") == "off") {
+		if (rainbowCheck) {
+			rainbowWasOn = true;
+		}
 		stripColor(ccolor, false);
 		check = false;
 		wakeUpCheck = false;
@@ -39,16 +47,24 @@ void power() {
 		fadeCheck = false;
 	} else if (server.arg("power") == "toggle") {
 		if (check == true) {
+			if (rainbowCheck) {
+				rainbowWasOn = true;
+			}
 			stripColor(ccolor, false);
 			check = false;
 			rainbowCheck = false;
 			wakeUpCheck = false;
 			fadeCheck = false;
 		} else {
-			stripColor(ccolor, true);
+			if (rainbowWasOn) {
+				rainbowCheck = true;
+			} else {
+				stripColor(ccolor, true);
+			}
 			check = true;
 			wakeUpCheck = false;
 			fadeCheck = false;
+			rainbowWasOn = false;
 		}
 	}
 
