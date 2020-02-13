@@ -137,6 +137,7 @@ void rainbow() {
 	check = true;
 	wakeUpCheck = false;
 	fadeCheck = false;
+	rainbowWasOn = false;
 
 	// Send a message back to the client.
 	serverSend("Turned on the rainbow.\n");
