@@ -120,6 +120,7 @@ void setup() {
 	server.on("/power", power); server.on("/color", color); server.on("/rgb", rgb);
 	server.on("/hsv", hsv); server.on("/rainbow", rainbow); server.on("/brightness", brightness);
 	server.on("/wakeup", wakeUp); server.on("/", root); server.on("/fade", fade);
+	server.on("/status", status);
 	server.begin();
 	Serial.println("Server started.");
 

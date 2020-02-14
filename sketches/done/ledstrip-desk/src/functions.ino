@@ -181,3 +181,12 @@ void fade() {
 	wakeUpCheck = false;
 	rainbowCheck = false;
 }
+
+// A function to send back what happening right now.
+void status() {
+	if (check) {
+		server.send(200, "text/json", "{status: on}");
+	} else {
+		server.send(200, "text/json", "{status: off}");
+	}
+}
