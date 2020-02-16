@@ -50,7 +50,9 @@ void setup() {
 	Serial.println(WiFi.localIP());
 
 	// Add the routes and start the server.
-	server.on("/power", power); server.on("/", root);
+	server.on("/", root);
+	server.on("/power", power);
+	server.on("/status", status);
 	server.begin();
 	Serial.println("Server started.");
 }

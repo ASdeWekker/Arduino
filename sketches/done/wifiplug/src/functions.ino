@@ -30,3 +30,13 @@ void power() {
 	}
 	serverSend("Processed.\n");
 }
+
+void status() {
+	if (check) {
+		server.sendHeader("Access-Control-Allow-Origin", "*");
+		server.send(200, "text/json", "{status: on}");
+	} else {
+		server.sendHeader("Access-Control-Allow-Origin", "*");
+		server.send(200, "text/json", "{status: off}");
+	}
+}
