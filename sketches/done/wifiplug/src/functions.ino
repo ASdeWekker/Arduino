@@ -32,7 +32,7 @@ void power() {
 }
 
 void status() {
-	if (check) {
+	if (powerCheck) {
 		server.sendHeader("Access-Control-Allow-Origin", "*");
 		server.send(200, "text/json", "{status: on}");
 	} else {
