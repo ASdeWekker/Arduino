@@ -1,15 +1,13 @@
-// This is where all the functions will live.
-
-// Display a message when root is accessed.
-void root() {
-	serverSend("You're not supposed to be here");
-}
+// This is where all the functions will be.
 
 // A function to set the proper CORS header.
 void serverSend(String message) {
 	server.sendHeader("Access-Control-Allow-Origin", "*");
-	server.send(200, "text/plain", message);
+	server.send(200, "text/json", message);
 }
+
+// Display a message when root is accessed.
+void root() { serverSend("You're not supposed to be here"); }
 
 // A function for controlling the RELAY_PIN.
 void power() {
@@ -28,15 +26,11 @@ void power() {
 			powerCheck = true;
 		}
 	}
-	serverSend("Processed.\n");
+	if (powerCheck) { serverSend("{status: on}"); }
+	else { serverSend("{status: off}"); }
 }
 
 void status() {
-	if (powerCheck) {
-		server.sendHeader("Access-Control-Allow-Origin", "*");
-		server.send(200, "text/json", "{status: on}");
-	} else {
-		server.sendHeader("Access-Control-Allow-Origin", "*");
-		server.send(200, "text/json", "{status: off}");
-	}
+	if (powerCheck) { serverSend("{status: on}"); }
+	else { serverSend("{status: off}"); }
 }
