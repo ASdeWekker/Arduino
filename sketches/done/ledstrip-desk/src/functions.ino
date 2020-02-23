@@ -1,12 +1,14 @@
-// Display a message when root is accessed.
-void root() {
-	serverSend("You're not supposed to be here");
-}
+// This is where all the functions will reside.
 
 // A function to set the proper CORS header.
 void serverSend(String message) {
 	server.sendHeader("Access-Control-Allow-Origin", "*");
-	server.send(200, "text/plain", message);
+	server.send(200, "text/json", message);
+}
+
+// Display a message when root is accessed.
+void root() {
+	serverSend("{message: You're not supposed to be here}");
 }
 
 // A function for changing the ledstrip's color.
