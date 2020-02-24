@@ -26,11 +26,11 @@ void power() {
 			powerCheck = true;
 		}
 	}
-	if (powerCheck) { serverSend("{status: on}"); }
-	else { serverSend("{status: off}"); }
+	if (powerCheck) { serverSend("{\"status\": \"on\"}"); }
+	else { serverSend("{\"status\": \"off\"}"); }
 }
 
 void status() {
-	if (powerCheck) { serverSend("{status: on}"); }
-	else { serverSend("{status: off}"); }
+	if (powerCheck) { serverSend("{'status': on}"); }
+	else { serverSend("{'status': on}"); }
 }
