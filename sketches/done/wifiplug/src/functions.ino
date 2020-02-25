@@ -31,6 +31,6 @@ void power() {
 }
 
 void status() {
-	if (powerCheck) { serverSend("{'status': on}"); }
-	else { serverSend("{'status': on}"); }
+	if (powerCheck) { serverSend("{\"status\": \"on\"}"); }
+	else { serverSend("{\"status\": \"off\"}"); }
 }
