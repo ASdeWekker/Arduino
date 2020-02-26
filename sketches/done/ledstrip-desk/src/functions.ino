@@ -8,7 +8,7 @@ void serverSend(String message) {
 
 // Display a message when root is accessed.
 void root() {
-	serverSend("{message: You're not supposed to be here}");
+	serverSend("{\"message\": \"You're not supposed to be here\"}");
 }
 
 // A function for changing the ledstrip's color.
@@ -23,7 +23,6 @@ void stripColor(int color, bool power) {
 		}
 	}
 }
-
 
 // A function for turning the ledstrip on or off.
 void power() {
@@ -71,9 +70,8 @@ void power() {
 	}
 
 	// Send a message back to the client.
-	serverSend("Processed.\n");
+	serverSend("{\"message\": \"The power state has been altered.\"}");
 }
-
 
 // A function for choosing a preprogrammed color.
 void color() {
@@ -104,18 +102,16 @@ void color() {
 
 	// Set the color and send the processed message.
 	stripColor(ccolor, true);
-	serverSend("Set the color: " + server.arg("color") + ".\n");
+	serverSend("{\"message\": \"Set the color to " + server.arg("color") + "\"}");
 }
-
 
 // A function to change the color via an rgb value.
 void rgb() {
 	// Going to make a function which takes an rgb value and converts it to an hsv value.
 
 	// Send a message back to the client.
-	serverSend("This function is not yet implemented.\n");
+	serverSend("{\"message\": \"This function is not yet implemented.\"}");
 }
-
 
 // A function to change the color via an hsv value.
 void hsv() {
@@ -128,9 +124,8 @@ void hsv() {
 	fadeCheck = false;
 
 	// Send a message back to the client.
-	serverSend("Processed the hsv color.\n");
+	serverSend("{\"message\": \"Processed the hsv color.\"}");
 }
-
 
 // A function to emit a rainbow at a certain speed.
 void rainbow() {
@@ -142,9 +137,8 @@ void rainbow() {
 	rainbowWasOn = false;
 
 	// Send a message back to the client.
-	serverSend("Turned on the rainbow.\n");
+	serverSend("{\"message\": \"Turned on the rainbow.\"}");
 }
-
 
 // A function to change the brightness.
 void brightness() {
@@ -152,7 +146,7 @@ void brightness() {
 	stripColor(ccolor, true);
 
 	// Send a message back to the client.
-	serverSend("Changed brightness.\n");
+	serverSend("{\"message\": \"Changed the brightness.\"}");
 }
 
 // A function to wake up nicely in the morning.
@@ -164,7 +158,7 @@ void wakeUp() {
 	rainbowCheck = false;
 	wakeUpCheck = true;
 	fadeCheck = false;
-	serverSend("Wake up.\n");
+	serverSend("{\"message\": \"Turned on the wake up function.\"}");
 }
 
 // A function to fade a color in and out.
@@ -173,10 +167,10 @@ void fade() {
 	
 	if (fadeDelay != 0) {
 		fadeCheck = true;
-		serverSend("Turned on fade.\n");
+		serverSend("{\"message\": \"Turned on fade.\"}");
 	} else {
 		fadeCheck = false;
-		serverSend("Turned off fade.\n");
+		serverSend("{\"message\": \"Turned off fade.\"}");
 	}
 	
 	check = true;
@@ -187,10 +181,8 @@ void fade() {
 // A function to send back what happening right now.
 void status() {
 	if (check) {
-		server.sendHeader("Access-Control-Allow-Origin", "*");
-		server.send(200, "text/json", "{status: on}");
+		serverSend("{\"status\": \"on\"}");
 	} else {
-		server.sendHeader("Access-Control-Allow-Origin", "*");
-		server.send(200, "text/json", "{status: off}");
+		serverSend("{\"status\": \"off\"}");
 	}
 }
