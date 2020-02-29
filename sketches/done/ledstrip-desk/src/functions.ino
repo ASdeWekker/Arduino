@@ -70,7 +70,13 @@ void power() {
 	}
 
 	// Send a message back to the client.
-	serverSend("{\"message\": \"The power state has been altered.\"}");
+	if (rainbowCheck) {
+		serverSend("{\"message\": \"The power state has been altered.\", \"status\": \"on-r\"}");
+	} else if (check) {
+		serverSend("{\"message\": \"The power state has been altered.\", \"status\": \"on\"}");
+	} else {
+		serverSend("{\"message\": \"The power state has been altered.\", \"status\": \"off\"}");
+	}
 }
 
 // A function for choosing a preprogrammed color.
@@ -102,7 +108,7 @@ void color() {
 
 	// Set the color and send the processed message.
 	stripColor(ccolor, true);
-	serverSend("{\"message\": \"Set the color to " + server.arg("color") + "\"}");
+	serverSend("{\"message\": \"Changed the color\", \"status\": \"on\", \"color\": \"" + server.arg("color") + "\"}");
 }
 
 // A function to change the color via an rgb value.
@@ -137,7 +143,7 @@ void rainbow() {
 	rainbowWasOn = false;
 
 	// Send a message back to the client.
-	serverSend("{\"message\": \"Turned on the rainbow.\"}");
+	serverSend("{\"message\": \"Turned on the rainbow.\", \"status\": \"on-r\"}");
 }
 
 // A function to change the brightness.
@@ -158,16 +164,16 @@ void wakeUp() {
 	rainbowCheck = false;
 	wakeUpCheck = true;
 	fadeCheck = false;
-	serverSend("{\"message\": \"Turned on the wake up function.\"}");
+	serverSend("{\"message\": \"Turned on the wake up function.\", \"status\": \"on-w\"}");
 }
 
 // A function to fade a color in and out.
 void fade() {
 	fadeDelay = server.arg("delay").toInt();
-	
+	// fadeDelay needs a value of 1 or greater or else it will turn off.
 	if (fadeDelay != 0) {
 		fadeCheck = true;
-		serverSend("{\"message\": \"Turned on fade.\"}");
+		serverSend("{\"message\": \"Turned on fade.\", \"status\": \"on-f\"}");
 	} else {
 		fadeCheck = false;
 		serverSend("{\"message\": \"Turned off fade.\"}");
@@ -180,7 +186,9 @@ void fade() {
 
 // A function to send back what happening right now.
 void status() {
-	if (check) {
+	if (rainbowCheck) {
+		serverSend("{\"status\": \"on-r\"}");
+	} else if (check) {
 		serverSend("{\"status\": \"on\"}");
 	} else {
 		serverSend("{\"status\": \"off\"}");
