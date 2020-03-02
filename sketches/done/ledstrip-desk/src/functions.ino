@@ -186,7 +186,7 @@ void fade() {
 
 // A function to send back what happening right now.
 void status() {
-	if (rainbowCheck) {
+	if (rainbowCheck && check) {
 		serverSend("{\"status\": \"on-r\"}");
 	} else if (check) {
 		serverSend("{\"status\": \"on\"}");
