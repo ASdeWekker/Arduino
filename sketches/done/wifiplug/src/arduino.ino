@@ -39,7 +39,7 @@ void setup() {
 		Serial.print(" ");
 	}
 	Serial.println("");
-	Serial.print("Seconds untill connection: ");
+	Serial.print("Seconds until connection: ");
 	Serial.println(timeInSeconds);
 	
 	Serial.println("");
