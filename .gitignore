@@ -3,5 +3,5 @@ pids
 *.log
 logs
 .directory
-
+wifi.h
 ipaddr.py
