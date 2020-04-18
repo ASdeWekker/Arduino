@@ -15,6 +15,7 @@ WiFiClient espClient;
 PubSubClient client(espClient);
 long lastMsg = 0;
 int value = 0;
+String composeClientID = "esp8266-01";
 
 int status = WL_IDLE_STATUS;
 
@@ -35,7 +36,7 @@ void setup_wifi() {
 	Serial.println(WiFi.localIP());
 }
 
-void callback(char* topic, byte* payload, unsigned int length) {
+void callback(char* topic, byte* payload, int length) {
 	Serial.print("Message arrived [");
 	Serial.print(topic);
 	Serial.print("] ");
@@ -52,45 +53,21 @@ void callback(char* topic, byte* payload, unsigned int length) {
 	}
 }
 
-String macToStr(const uint8_t* mac) {
-	String result;
-	for (int i = 0; i < 6; i++) {
-		result += String(mac[i], 16);
-		if (i < 5)
-			result += ":";
-	}
-	return result;
-}
-
-String composeClientID() {
-	uint8_t mac[6];
-	WiFi.macAddress(mac);
-	String clientId;
-	clientId += "esp-";
-	clientId += macToStr(mac);
-	return clientId;
-}
-
 void reconnect() {
 	// Loop until we're reconnected.
 	while (!client.connected()) {
-		Serial.print("Attemtping MQTT connection...");
+		Serial.print("Attemtping MQTT connection... ");
 		
-		String clientId = composeClientID();
-		clientId += "-";
-		clientId += String(micros() & 0xff, 16); // to randomise, sort of // ???
-
+		String clientId = "%s-001", composeClientID;
 		// Attempt to connect.
-		if (client.connect(clientId.c_str())) {
-			Serial.println("Connected");
+		if (client.connect(clientId.c_str(), mqtt_user, mqtt_password)) {
+			Serial.println("connected");
 			// Once connected, publish an announcement.
-			client.publish(topic, ("connected " + composeClientID()).c_str(), true);
+			client.publish(topic, ("connected " + composeClientID).c_str(), true);
 			// And resubscribe topic + clientID + in
 			String subscription;
 			subscription += topic;
-			subscription += "/";
-			subscription += composeClientID();
-			subscription += "/in";
+			subscription += "/esp8266-01/in";
 			client.subscribe(subscription.c_str());
 			Serial.print("Subscribed to: ");
 			Serial.println(subscription);
@@ -109,7 +86,7 @@ void reconnect() {
 // The setup.
 void setup() {
 	pinMode(LED_BUILTIN, OUTPUT);
-	Serial.begin(230400);
+	Serial.begin(9600);
 	setup_wifi();
 	client.setServer(mqtt_server, 1883);
 	client.setCallback(callback);
@@ -132,12 +109,12 @@ void loop() {
 		payload += ",\"counter\":";
 		payload += value;
 		payload += ",\"client\":";
-		payload += composeClientID();
+		payload += composeClientID;
 		payload += "}";
 		String pubTopic;
 		pubTopic += topic;
 		pubTopic += "/";
-		pubTopic += composeClientID();
+		pubTopic += composeClientID;
 		pubTopic += "/out";
 		Serial.print("Publish topic: ");
 		Serial.println(pubTopic);
