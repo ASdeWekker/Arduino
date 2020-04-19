@@ -1,6 +1,7 @@
 
 /*
-	Test project for use with MQTT.
+	This is the MQTT implementation for the multiple
+	wifi connected plugs I'll be using around my home.
 */
 
 // Include libraries.
@@ -12,9 +13,13 @@
 WiFiClient espClient;
 PubSubClient client(espClient);
 
+// Define the relay pin.
+#define RELAY_PIN D3
+
 int status = WL_IDLE_STATUS;
-bool ledState = false;
-long tbm = 1000 * 20; // time between messages.
+bool powerCheck = false;
+// Declare how much time needs to be between each message.
+long tbm = 1000 * 20;
 long lastMsg;
 
 void setup_wifi() {
@@ -32,11 +37,11 @@ void callback(char* topic, byte* payload, int length) {
 	for (int i = 0; i < length; i++) { Serial.print((char)payload[i]); }
 	Serial.println();
 	if ((char)payload[0] == '1') {
-		digitalWrite(LED_BUILTIN, LOW);
-		ledState = HIGH;
+		digitalWrite(RELAY_PIN, HIGH);
+		powerCheck = HIGH;
 	} else {
-		digitalWrite(LED_BUILTIN, HIGH);
-		ledState = LOW;
+		digitalWrite(RELAY_PIN, LOW);
+		powerCheck = LOW;
 	}
 }
 
@@ -57,7 +62,7 @@ void reconnect() {
 
 void setup() {
 	Serial.begin(9600);
-	pinMode(LED_BUILTIN, OUTPUT);
+	pinMode(RELAY_PIN, OUTPUT);
 	setup_wifi();
 	client.setServer(mqtt_server, 1883);
 	client.setCallback(callback);
@@ -71,7 +76,7 @@ void loop() {
 	long now = millis();
 	if (now - lastMsg > tbm) {
 		lastMsg = now;
-		String payload; payload += "{\"status\":\""; payload += ledState; payload += "\"}";
+		String payload; payload += "{\"status\":\""; payload += powerCheck; payload += "\"}";
 		String pubTopic = "wemos/" + clientId + "/out";
 		Serial.println("pub: " + pubTopic);
 		Serial.println("pub msg: " + payload);
